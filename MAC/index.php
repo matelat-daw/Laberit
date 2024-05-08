@@ -98,6 +98,21 @@ include "includes/nav_index.html";
                     <script>change(1, 8);</script>
                     <br><br><br><br>
                 </div>
+                <div id="view3">
+                    <br><br><br><br>
+                    <h3>Grafica de Nivel de Ataque de las Conexiones Intrusas.</h3>
+                    <br>
+
+                    <!-- Este Código Dibuja una Gráfica de Barras -->
+                    <!-- <div id="chart_div"></div>
+                    <script>google.charts.load('current', {packages: ['corechart', 'bar']});
+                        google.charts.setOnLoadCallback(drawBasic);</script> -->
+
+                        <!-- Este Código Dibuja un Anillo -->
+                    <div id="donutchart" style="width: 1280px; height: 768px;"></div>
+                    <script>google.charts.load("current", {packages:["corechart"]});
+                        google.charts.setOnLoadCallback(drawChart);</script>
+                </div>
             </div>
         <div class="col-md-1"></div>
     </div>

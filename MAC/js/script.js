@@ -86,6 +86,115 @@ function addColon()
     });
 }
 
+function drawBasic() // Gráfica de Barras.
+{
+    var data = new google.visualization.DataTable();
+    data.addColumn('timeofday', 'Time of Day');
+    data.addColumn('number', 'Nivel de Ataque');
+
+    /* data.addRows([
+    [{v: [8, 0, 0], f: '8 am'}, 1],
+    [{v: [9, 0, 0], f: '9 am'}, 2],
+    [{v: [10, 0, 0], f:'10 am'}, 3],
+    [{v: [11, 0, 0], f: '11 am'}, 4],
+    [{v: [12, 0, 0], f: '12 pm'}, 5],
+    [{v: [13, 0, 0], f: '1 pm'}, 6],
+    [{v: [14, 0, 0], f: '2 pm'}, 7],
+    [{v: [15, 0, 0], f: '3 pm'}, 8],
+    [{v: [16, 0, 0], f: '4 pm'}, 9],
+    [{v: [17, 0, 0], f: '5 pm'}, 10],
+    [{v: [18, 0, 0], f: '6 pm'}, 11],
+    [{v: [19, 0, 0], f: '7 pm'}, 12],
+    [{v: [20, 0, 0], f: '8 pm'}, 13],
+    ]); */ // Esta Gráfica pone barras Verticales Azules.
+
+    /* var data = google.visualization.arrayToDataTable([
+    ['Element', 'Density', { role: 'style' }],
+    ['Copper', 8.94, '#b87333'],            // RGB value
+    ['Silver', 10.49, 'silver'],            // English color name
+    ['Gold', 19.30, 'gold'],
+
+    ['Platinum', 21.45, 'color: #e5e4e2' ], // CSS-style declaration
+    ]); */ // Barras con los colores de los metales.
+
+    var data = google.visualization.arrayToDataTable([
+    ['Year', 'Visitations', { role: 'style' } ],
+    ['2010', 10, 'color: gray'],
+    ['2020', 14, 'color: #76A7FA'],
+    ['2030', 16, 'opacity: 0.2'],
+    ['2040', 22, 'stroke-color: #703593; stroke-width: 4; fill-color: #C5A5CF'],
+    ['2050', 28, 'stroke-color: #871B47; stroke-opacity: 0.6; stroke-width: 8; fill-color: #BC5679; fill-opacity: 0.2']
+    ]);
+
+    var options = {
+    title: 'Ataques del Día',
+    hAxis: {
+        title: 'Momento del Día',
+        format: 'H:mm a',
+        viewWindow: {
+        min: [0, 0, 0],
+        max: [23, 59, 0]
+        }
+    },
+    vAxis: {
+        title: 'Rating (Escala 1:10)'
+    }
+    };
+
+    var chart = new google.visualization.ColumnChart(
+    document.getElementById('chart_div'));
+
+    chart.draw(data, options);
+}
+
+function drawChart() // Gráfica de Anillo.
+{
+    let my_data = [];
+
+    for (i = 0; i < length; i++)
+    {
+        my_data[i] = array_value[i + 1 + (i * 9)] + " | " + array_value[i + 7 + (i * 9)] + " | " + array_value[i + 8 + (i * 9)];
+    }
+
+    let sizes = [];
+
+    for(i = 0; i < length; i++){
+        if(!sizes.map(e => e.size).includes(array_value[i + 8 + (i * 9)]))
+            sizes.push({size: array_value[i + 8 + (i * 9)], amount: 1});
+        else{
+            sizes[sizes.map(e => e.size).indexOf(array_value[i + 8 + (i * 9)])].amount++;
+        }
+    }
+
+    var values = [];
+    for (i = 0; i < sizes.length; i++)
+    {
+        values[i] = [sizes[i].size, sizes[i].amount];
+    }
+
+    values.sort((a, b) => b[1] - a[1]);
+
+    values.unshift(['Ataques', 'Durante el Día']);
+
+    var data = google.visualization.arrayToDataTable(values);
+    
+    
+    var options = {
+      title: 'Ataque Diarios',
+      pieHole: 0,
+      slices: {}
+    };
+    
+    var color = 30;
+    for(var i = 0; i < sizes.length; i++){
+        options.slices[i] = {color: "rgb(255,"+color+","+color+")"};
+        color+=(256/sizes.length)-1;
+    }
+    
+    var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+    chart.draw(data, options);
+  }
+
 function toast(warn, ttl, msg) // Función para mostrar el Diálogo con los mensajes de alerta, recibe, Código, Título y Mensaje.
 {
     if (warn == 1) // Si el código es 1, es una alerta.
