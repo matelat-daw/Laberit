@@ -166,13 +166,16 @@ function drawChart() // Gráfica de Anillo.
         }
     }
 
+    sizes.sort(function (a, b)
+    {
+        return b.qtty - a.qtty || b.length - a.length;
+    });
+
     var values = [];
     for (i = 0; i < sizes.length; i++)
     {
         values[i] = [sizes[i].size, sizes[i].amount];
     }
-
-    values.sort((a, b) => b[1] - a[1]);
 
     values.unshift(['Ataques', 'Durante el Día']);
 
