@@ -104,9 +104,9 @@ include "includes/nav_index.html";
                     <br>
 
                     <!-- Este Código Dibuja una Gráfica de Barras -->
-                    <!-- <div id="chart_div"></div>
+                    <div id="chart_div"></div>
                     <script>google.charts.load('current', {packages: ['corechart', 'bar']});
-                        google.charts.setOnLoadCallback(drawBasic);</script> -->
+                        google.charts.setOnLoadCallback(drawBasic);</script>
 
                         <!-- Este Código Dibuja un Anillo -->
                     <div id="donutchart" style="width: 1280px; height: 768px;"></div>

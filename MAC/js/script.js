@@ -88,9 +88,9 @@ function addColon()
 
 function drawBasic() // Gráfica de Barras.
 {
-    var data = new google.visualization.DataTable();
-    data.addColumn('timeofday', 'Time of Day');
-    data.addColumn('number', 'Nivel de Ataque');
+    // var data = new google.visualization.DataTable();
+    // data.addColumn('timeofday', 'Time of Day');
+    // data.addColumn('number', 'Nivel de Ataque');
 
     /* data.addRows([
     [{v: [8, 0, 0], f: '8 am'}, 1],
@@ -117,27 +117,24 @@ function drawBasic() // Gráfica de Barras.
     ['Platinum', 21.45, 'color: #e5e4e2' ], // CSS-style declaration
     ]); */ // Barras con los colores de los metales.
 
-    var data = google.visualization.arrayToDataTable([
-    ['Year', 'Visitations', { role: 'style' } ],
-    ['2010', 10, 'color: gray'],
-    ['2020', 14, 'color: #76A7FA'],
-    ['2030', 16, 'opacity: 0.2'],
-    ['2040', 22, 'stroke-color: #703593; stroke-width: 4; fill-color: #C5A5CF'],
-    ['2050', 28, 'stroke-color: #871B47; stroke-opacity: 0.6; stroke-width: 8; fill-color: #BC5679; fill-opacity: 0.2']
-    ]);
+    let values = [];
+
+    values = getValues();
+
+    var data = google.visualization.arrayToDataTable(values);
 
     var options = {
-    title: 'Ataques del Día',
+    title: 'Ataques Totales',
     hAxis: {
-        title: 'Momento del Día',
+        title: 'Ataques de Mayor a Menor, Por Cantidad y por Tamaño de Paquete',
         format: 'H:mm a',
         viewWindow: {
         min: [0, 0, 0],
-        max: [23, 59, 0]
+        max: [24, 0, 0]
         }
     },
     vAxis: {
-        title: 'Rating (Escala 1:10)'
+        title: 'Rating (Escala 1:1)'
     }
     };
 
@@ -149,13 +146,31 @@ function drawBasic() // Gráfica de Barras.
 
 function drawChart() // Gráfica de Anillo.
 {
-    let my_data = [];
+    let values = [];
+    values = getValues();
 
-    for (i = 0; i < length; i++)
+    var options = {
+        title: 'Ataques Totales',
+        pieHole: 0.4,
+        slices: {}
+    };
+      
+    var color = 30;
+    for(var i = 0; i < values.length; i++)
     {
-        my_data[i] = array_value[i + 1 + (i * 9)] + " | " + array_value[i + 7 + (i * 9)] + " | " + array_value[i + 8 + (i * 9)];
+        options.slices[i] = {color: "rgb(255,"+color+","+color+")"};
+        color+=Math.round(256/values.length)-1;
     }
 
+    var data = google.visualization.arrayToDataTable(values);
+    
+    var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+    chart.draw(data, options);
+}
+
+function getValues()
+{
+    let values = [];
     let sizes = [];
 
     for(i = 0; i < length; i++){
@@ -168,35 +183,20 @@ function drawChart() // Gráfica de Anillo.
 
     sizes.sort(function (a, b)
     {
-        return b.qtty - a.qtty || b.length - a.length;
+        return b.amount - a.amount || b.size - a.size;
     });
 
-    var values = [];
     for (i = 0; i < sizes.length; i++)
     {
         values[i] = [sizes[i].size, sizes[i].amount];
     }
 
-    values.unshift(['Ataques', 'Durante el Día']);
+    values.unshift(['Ataques', 'Ataques']);
 
-    var data = google.visualization.arrayToDataTable(values);
-    
-    
-    var options = {
-      title: 'Ataque Diarios',
-      pieHole: 0,
-      slices: {}
-    };
-    
-    var color = 30;
-    for(var i = 0; i < sizes.length; i++){
-        options.slices[i] = {color: "rgb(255,"+color+","+color+")"};
-        color+=(256/sizes.length)-1;
-    }
-    
-    var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-    chart.draw(data, options);
-  }
+    console.log("Los Valores Son: " + values);
+
+    return values;
+}
 
 function toast(warn, ttl, msg) // Función para mostrar el Diálogo con los mensajes de alerta, recibe, Código, Título y Mensaje.
 {
@@ -222,7 +222,7 @@ function toast(warn, ttl, msg) // Función para mostrar el Diálogo con los mens
 
 function screenSize() // Función para dar el tamaño máximo de la pantalla a las vistas.
 {
-    let view3 = document.getElementById("view3");
+    let view4 = document.getElementById("view4");
     let height = window.innerHeight; // window.innerHeight es el tamaño vertical de la pantalla.
 
     if (view1.offsetHeight < height) // Si el tamaño vertical de la vista es menor que el tamaño vertical de la pantalla.
