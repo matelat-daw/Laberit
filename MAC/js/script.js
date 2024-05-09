@@ -119,7 +119,7 @@ function drawBasic() // Gráfica de Barras.
 
     let values = [];
 
-    values = getValues();
+    values = getValues(); /// Llama a la función que obtiene los valores de InfluxDB.
 
     var data = google.visualization.arrayToDataTable(values);
 
@@ -134,7 +134,7 @@ function drawBasic() // Gráfica de Barras.
         }
     },
     vAxis: {
-        title: 'Rating (Escala 1:1)'
+        title: 'Rating (Escala 1:5)'
     }
     };
 
@@ -192,8 +192,6 @@ function getValues()
     }
 
     values.unshift(['Ataques', 'Ataques']);
-
-    console.log("Los Valores Son: " + values);
 
     return values;
 }
