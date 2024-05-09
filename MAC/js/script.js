@@ -138,8 +138,7 @@ function drawBasic() // Gráfica de Barras.
     }
     };
 
-    var chart = new google.visualization.ColumnChart(
-    document.getElementById('chart_div'));
+    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 
     chart.draw(data, options);
 }
