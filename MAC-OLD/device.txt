@@ -1,3 +1,0 @@
-Servidor:  wsrv.laberitdev.local
-Address:  172.32.0.2
-

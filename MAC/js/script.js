@@ -88,35 +88,6 @@ function addColon()
 
 function drawBasic() // Gráfica de Barras.
 {
-    // var data = new google.visualization.DataTable();
-    // data.addColumn('timeofday', 'Time of Day');
-    // data.addColumn('number', 'Nivel de Ataque');
-
-    /* data.addRows([
-    [{v: [8, 0, 0], f: '8 am'}, 1],
-    [{v: [9, 0, 0], f: '9 am'}, 2],
-    [{v: [10, 0, 0], f:'10 am'}, 3],
-    [{v: [11, 0, 0], f: '11 am'}, 4],
-    [{v: [12, 0, 0], f: '12 pm'}, 5],
-    [{v: [13, 0, 0], f: '1 pm'}, 6],
-    [{v: [14, 0, 0], f: '2 pm'}, 7],
-    [{v: [15, 0, 0], f: '3 pm'}, 8],
-    [{v: [16, 0, 0], f: '4 pm'}, 9],
-    [{v: [17, 0, 0], f: '5 pm'}, 10],
-    [{v: [18, 0, 0], f: '6 pm'}, 11],
-    [{v: [19, 0, 0], f: '7 pm'}, 12],
-    [{v: [20, 0, 0], f: '8 pm'}, 13],
-    ]); */ // Esta Gráfica pone barras Verticales Azules.
-
-    /* var data = google.visualization.arrayToDataTable([
-    ['Element', 'Density', { role: 'style' }],
-    ['Copper', 8.94, '#b87333'],            // RGB value
-    ['Silver', 10.49, 'silver'],            // English color name
-    ['Gold', 19.30, 'gold'],
-
-    ['Platinum', 21.45, 'color: #e5e4e2' ], // CSS-style declaration
-    ]); */ // Barras con los colores de los metales.
-
     let values = [];
 
     values = getValues(); /// Llama a la función que obtiene los valores de InfluxDB.
@@ -125,16 +96,18 @@ function drawBasic() // Gráfica de Barras.
 
     var options = {
     title: 'Ataques Totales',
+    minvalue: 0,
     hAxis: {
         title: 'Ataques de Mayor a Menor, Por Cantidad y por Tamaño de Paquete',
-        format: 'H:mm a',
+        format: 'd-M-yyyy',
+        gridlines: {count: 12},
         viewWindow: {
-        min: [0, 0, 0],
-        max: [24, 0, 0]
+        min: [1, 1, 2024],
+        max: [31, 12, 2024]
         }
     },
     vAxis: {
-        title: 'Rating (Escala 1:5)'
+        title: 'Rating (Escala 1:1000)'
     }
     };
 
@@ -172,9 +145,10 @@ function getValues()
     let values = [];
     let sizes = [];
 
-    for(i = 0; i < length; i++){
+    for(i = 0; i < length; i++)
+    {
         if(!sizes.map(e => e.size).includes(array_value[i + 8 + (i * 9)]))
-            sizes.push({size: array_value[i + 8 + (i * 9)], amount: 1});
+            sizes.push({mac: array_value[i + 1 + (i * 9)] + ' Fecha: ' + array_value[i + 7 + (i * 9)], size: parseInt(array_value[i + 8 + (i * 9)]), amount: 1});
         else{
             sizes[sizes.map(e => e.size).indexOf(array_value[i + 8 + (i * 9)])].amount++;
         }
@@ -185,12 +159,14 @@ function getValues()
         return b.amount - a.amount || b.size - a.size;
     });
 
+    values.push(['Mac', 'Tamaño del Paquete', 'Cantidad de Ataques']);
+
     for (i = 0; i < sizes.length; i++)
     {
-        values[i] = [sizes[i].size, sizes[i].amount];
+        values[i + 1] = ['MAC: ' + sizes[i].mac, sizes[i].size / 1000, sizes[i].amount];
     }
 
-    values.unshift(['Ataques', 'Ataques']);
+    // values.unshift(['Ataques', 'Ataques']);
 
     return values;
 }

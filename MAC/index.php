@@ -56,7 +56,7 @@ include "includes/nav_index.html";
                     {
                         $time = array_column($records, 'time'); // Obtengo la KEY time del Array $records.
 
-                        array_multisort($time, SORT_DESC, $records); // Ordena el Array $records por la Columna time, en Orden Descendiente.
+                        array_multisort($time, SORT_ASC, $records); // Ordena el Array $records por la Columna time, en Orden Descendiente.
 
                         $i = 0; // Índice de Todos los Datos de Todas las Tuplas.
                         $z = 0; // Se usa para almacenar los Tags Solo una Vez.
