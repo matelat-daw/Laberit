@@ -128,12 +128,12 @@ include "includes/header.php";
                                 <option value="Xlsx">Xlsx</option>
                                 <option value="Csv">Csv</option>
                             </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="submit" name="export" class="btn btn-primary btn-lg" value="Descarga el Informe" />
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <input type="submit" name="export" class="btn btn-primary btn-lg" value="Descarga el Informe" />
-                        </div>
-                    </div>
-                    </form>
+                        </form>
                     <br><br>
                     <table>
                         <tr class='text-center'>

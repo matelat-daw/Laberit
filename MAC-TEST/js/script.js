@@ -23,41 +23,44 @@ function next() // La Función next muestra la página siguiente.
 
 function change(page, qtty) // Función que muestra los resultados de a 5 en la tabla, recibe la página page, la cantidad de resultados a mostrar qtty y true si viene de index y false si viene de profile.
 {
-    window.page = page; // Asigno la variable page, a la variable global window.page.
-    window.qtty = qtty; // Asigno la variable qtty, a la variable global window.qtty.
-    const tags = array_key.length - 1; // Cantidad de Datos en Cada Tupla de Valores.
-    var length = array_value.length / (tags + 1); // Obtengo en length el Tamaño de Cada Tupla en el Array de Valores.
-    window.length = length; // Hago global la variable length.
-
-    var html = "<table><tr class='text-center'><th>IP</th><th>MAC</th><th>Host</th><th>Puerto Local</th><th>Puerto Remoto</th><th>Protocolo</th><th>OUI</th><th>Tamaño del Paquete</th><th>Marca</th><th>Fecha</th></tr>";
-    for (i = (page - 1) * qtty; i < page * qtty; i++) // Aquí hago el bucle desde la página donde esté, a la cantidad de resultados a mostrar.
+    if (typeof array_key != "undefined" && array_key.length > 0)
     {
-        if (i < length) // Si i es menor que el tamaño del array.
-        {
-            html += "<tr><td>" + array_value[i + (tags * i)] + "</td><td>" + array_value[i + 1 + (tags * i)] + "</td><td>" + array_value[i + 2 + (tags * i)] + "</td><td>" + array_value[i + 3 + (tags * i)] + "</td><td>" + array_value[i + 4 + (tags * i)] + "</td><td>" + array_value[i + 5 + (tags * i)] + "</td><td>" + array_value[i + 6 + (tags * i)] + "</td><td>" + array_value[i + 8 + (tags * i)] + "</td><td>" + array_value[i + 9 + (tags * i)] + "</td><td>" + array_value[i + 7 + (tags * i)] + "</td></tr>";
-        }
-    }
-    html += "</table>";
-    table.innerHTML = html; // Muestro todo en pantalla.
+        window.page = page; // Asigno la variable page, a la variable global window.page.
+        window.qtty = qtty; // Asigno la variable qtty, a la variable global window.qtty.
+        const tags = array_key.length - 1; // Cantidad de Datos en Cada Tupla de Valores.
+        var length = array_value.length / (tags + 1); // Obtengo en length el Tamaño de Cada Tupla en el Array de Valores.
+        window.length = length; // Hago global la variable length.
 
-    if (length > 5) // Si la cantidad de Artículos es mayor que 5.
-    {
-        pages.innerHTML = "Página: " + page; // Muestro el número de página.
-        if (page == 1) // Si la página es la número 1
+        var html = "<table><tr class='text-center'><th>IP</th><th>MAC</th><th>Host</th><th>Puerto Local</th><th>Puerto Remoto</th><th>Protocolo</th><th>OUI</th><th>Tamaño del Paquete</th><th>Marca</th><th>Fecha</th></tr>";
+        for (i = (page - 1) * qtty; i < page * qtty; i++) // Aquí hago el bucle desde la página donde esté, a la cantidad de resultados a mostrar.
         {
-            prev_btn.style.visibility = "hidden"; // Escondo el Botón con id prev que mostraría los resultados anteriores.
+            if (i < length) // Si i es menor que el tamaño del array.
+            {
+                html += "<tr><td>" + array_value[i + (tags * i)] + "</td><td>" + array_value[i + 1 + (tags * i)] + "</td><td>" + array_value[i + 2 + (tags * i)] + "</td><td>" + array_value[i + 3 + (tags * i)] + "</td><td>" + array_value[i + 4 + (tags * i)] + "</td><td>" + array_value[i + 5 + (tags * i)] + "</td><td>" + array_value[i + 6 + (tags * i)] + "</td><td>" + array_value[i + 8 + (tags * i)] + "</td><td>" + array_value[i + 9 + (tags * i)] + "</td><td>" + array_value[i + 7 + (tags * i)] + "</td></tr>";
+            }
         }
-        else // Si no, estoy en otra página.
+        html += "</table>";
+        table.innerHTML = html; // Muestro todo en pantalla.
+
+        if (length > 5) // Si la cantidad de Artículos es mayor que 5.
         {
-            prev_btn.style.visibility = "visible"; // Hago visible el botón para mostrar los resultados anteriores.
-        }
-        if (page == totNumPages()) // Si estoy en la última página.
-        {
-            next_btn.style.visibility = "hidden"; // Escondo el botón para mostrar los resultados siguientes.
-        }
-        else // Si no, estoy en una página intermedia o en la primera.
-        {
-            next_btn.style.visibility = "visible"; // Hago visible el botón para mostrar los resultados siguientes.
+            pages.innerHTML = "Página: " + page; // Muestro el número de página.
+            if (page == 1) // Si la página es la número 1
+            {
+                prev_btn.style.visibility = "hidden"; // Escondo el Botón con id prev que mostraría los resultados anteriores.
+            }
+            else // Si no, estoy en otra página.
+            {
+                prev_btn.style.visibility = "visible"; // Hago visible el botón para mostrar los resultados anteriores.
+            }
+            if (page == totNumPages()) // Si estoy en la última página.
+            {
+                next_btn.style.visibility = "hidden"; // Escondo el botón para mostrar los resultados siguientes.
+            }
+            else // Si no, estoy en una página intermedia o en la primera.
+            {
+                next_btn.style.visibility = "visible"; // Hago visible el botón para mostrar los resultados siguientes.
+            }
         }
     }
 }
@@ -83,80 +86,95 @@ function addColon()
 
 function drawBasic() // Gráfica de Barras.
 {
-    let values = [];
-    values = getValues(); // Llama a la función que obtiene los valores de InfluxDB.
-
-    for (i = 1; i < values.length; i++) // Bucle para Corregir las Fechas para Ordenar por Fecha y Tamaño de Paquete, Se Inicia en el Índice 1.
+    if (length > 0)
     {
-        var date = values[i][0].substr(0, 10); // Corta los 10 Primeros Caracteres de la Cadena con Formato de Fecha ISO 8601 Date and Time(2024-05-09T15:14:33Z).
-        let each = date.split("-");
-        each[1]--; // Reduce en 1 el Mes ya que los Meses en Javascript Van de 0 a 11.
-        let my_date = new Date(each[0], each[1], each[2]);
-        values[i][0] = my_date;
-    }
-    
-    var options = {
-        title: 'Ataques Totales',
-        'height':480,
-        colors: ['#ff0000'],
-        bar: {
-            groupWidth: "80%"
-        },
-        hAxis: {
-            title: 'Ataques de Mayor a Menor, Por Cantidad, Tamaño de Paquete y por Fecha',
-            format: 'd MMM YYYY',
-            gridlines: {count: 7},
-            viewWindow: {
-                min: new Date(Date.now() - (7 * 24 * 60 * 60 * 1000)),
-                max: new Date()
-            },
-        },
-        vAxis: {
-            title: 'Rating (Escala 1:1000)'
-        },
-        tooltip: {isHtml: true}
-    };
+        let values = [];
+        values = getValues(); // Llama a la función que obtiene los valores de InfluxDB.
 
-    var data = google.visualization.arrayToDataTable(values);
-    // var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-    var chart = new google.visualization.ColumnChart(chart_div);
-    chart.draw(data, options);
+        for (i = 1; i < values.length; i++) // Bucle para Corregir las Fechas para Ordenar por Fecha y Tamaño de Paquete, Se Inicia en el Índice 1.
+        {
+            var date = values[i][0].substr(0, 10); // Corta los 10 Primeros Caracteres de la Cadena con Formato de Fecha ISO 8601 Date and Time(2024-05-09T15:14:33Z).
+            let each = date.split("-");
+            each[1]--; // Reduce en 1 el Mes ya que los Meses en Javascript Van de 0 a 11.
+            let my_date = new Date(each[0], each[1], each[2]);
+            values[i][0] = my_date;
+        }
+        
+        var options = {
+            title: 'Ataques Totales',
+            'height':480,
+            colors: ['#ff0000'],
+            bar: {
+                groupWidth: "80%"
+            },
+            hAxis: {
+                title: 'Ataques de Mayor a Menor, Por Cantidad, Tamaño de Paquete y por Fecha',
+                format: 'd MMM YYYY',
+                gridlines: {count: 7},
+                viewWindow: {
+                    min: new Date(Date.now() - (7 * 24 * 60 * 60 * 1000)),
+                    max: new Date()
+                },
+            },
+            vAxis: {
+                title: 'Rating (Escala 1:1000)'
+            },
+            tooltip: {isHtml: true}
+        };
+
+        var data = google.visualization.arrayToDataTable(values);
+        // var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.ColumnChart(chart_div);
+        chart.draw(data, options);
+    }
+    else
+    {
+        toast(0, 'Sin Datos Aun', 'No Hay Datos de la Última Hora.');
+    }
 }
 
 function drawChart() // Gráfica de Anillo.
 {
-    let values = [];
-    values = getValues();
-
-    var options = {
-        title: 'Ataques Totales',
-        pieHole: 0.4,
-        slices: {}
-    };
-      
-    var color = 0; // Para los Colores Verde y Azul.
-
-    for (i = 1; i < values.length; i++)
+    if (length > 0)
     {
-        options.slices[i - 1] = {color: "rgb(255, " + color + ", " + color + ")"}; // Da color Rojo puro al primer valor.
-        if (i < values.length - 1 && values[i][1] != values[i + 1][1]) // Si el Índice del Array es Menor que el Tamaño del Array - 1 y el Primer Valor es Distinto del Segundo.
-            color += Math.trunc(256 / values.length); // Incrementa el Valor de Color, Hace el Color Más Claro.
-    }
+        let values = [];
+        values = getValues();
 
-    var data = google.visualization.arrayToDataTable(values);
-    // var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-    var chart = new google.visualization.PieChart(donutchart);
-    chart.draw(data, options);
+        var options = {
+            title: 'Ataques Totales',
+            pieHole: 0.4,
+            slices: {}
+        };
+        
+        var color = 0; // Para los Colores Verde y Azul.
+
+        for (i = 1; i < values.length; i++)
+        {
+            options.slices[i - 1] = {color: "rgb(255, " + color + ", " + color + ")"}; // Da color Rojo puro al primer valor.
+            if (i < values.length - 1 && values[i][1] != values[i + 1][1]) // Si el Índice del Array es Menor que el Tamaño del Array - 1 y el Primer Valor es Distinto del Segundo.
+                color += Math.trunc(256 / values.length); // Incrementa el Valor de Color, Hace el Color Más Claro.
+        }
+
+        var data = google.visualization.arrayToDataTable(values);
+        // var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        var chart = new google.visualization.PieChart(donutchart);
+        chart.draw(data, options);
+    }
+    else
+    {
+        toast(0, 'Sin Datos Aun', 'No Hay Datos de la Última Hora.');
+    }
 }
 
 function getValues()
 {
+    
     let values = [];
     let data = [];
 
     for(i = 0; i < length; i++) // Acá Uso el Length Global, Para Poner los Datos del Array array_value de JavaScript en un Array Asociativo Llamado data.
     {
-        data.push({date: array_value[i + 7 + (i * 9)], length: parseInt(array_value[i + 8 + (i * 9)]), mac_ip: array_value[i + 1 + (i * 9)]});
+        data.push({date: array_value[i + 7 + (i * 9)], length: parseInt(array_value[i + 8 + (i * 9)]), mac_ip: array_value[i + 1 + (i * 9)].toUpperCase()});
     }
 
     data.sort(function (a, b)
@@ -171,7 +189,7 @@ function getValues()
     for (i = 0; i < data.length; i++)
     {
         values[i + 1] = [data[i].date, data[i].length / 1000, 'color: ' + "rgb(255, " + color + ", " + color + ")", "<div class='toolbox'><strong>MAC: </strong>" + data[i].mac_ip  + "<br>" + "<strong>Tamaño: </strong>" + data[i].length / 1000 + " KBytes</div>"]; // , data[i].amount];
-        if (i < data.length - 1 && data[i].mac_ip != data[i + 1].mac_ip)
+        if (i < data.length - 1 && data[i].length != data[i + 1].length)
             color+=Math.trunc(256 / data.length);
     }
 

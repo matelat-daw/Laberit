@@ -39,10 +39,9 @@ include "includes/nav_index.html";
                     <h3>Lista de datos en InfluxDB:</h3>
                     <br><br>
                     <?php
-                    $query = "from(bucket: \"$bucket\") |> range(start: -8d) |> filter(fn: (r) => r._measurement == \"intruder\")"; // Consulta a InfluxDB.
+                    $query = "from(bucket: \"$bucket\") |> range(start: -7d) |> filter(fn: (r) => r._measurement == \"intruder\")"; // Consulta a InfluxDB.
                     $tables = $client->createQueryApi()->query($query, $org); // Ejecuta la Consulta Asignado el Resutlado a la Variable $tables.
                     $records = []; // $records Contendrá todos los Resultados de la Tabla intruder de la Base de Datos MACDB.
-                    $data = [];
                     $i = 0;
                     foreach ($tables as $table) // Obtiene cada Tabla de las Tablas de la Variable $tables(Solo Obtiene la Tabla intruder).
                     {
@@ -56,6 +55,7 @@ include "includes/nav_index.html";
 
                     if (count($records) > 0) // Si hay Datos.
                     {
+                        $data = [];
                         $time = array_column($records, 'time'); // Obtengo la KEY time del Array $records.
 
                         array_multisort($time, SORT_DESC, $records); // Ordena el Array $records por la Columna time, en Orden Descendiente.
@@ -118,33 +118,22 @@ include "includes/nav_index.html";
                     <br><br><br>
                 </div>
                 <div id="view4">
-                    <br><br><br><br><br><br><br><br><br><br><br><br>
-                    <h3>Exportando los Datos a Excel o CSV</h3>
-                    <br>
-                    <div class="col-md-5">
-                    <h4>Haz Click en Ver Informe.</h4>
-                    <br>
-                    <form action="export.php" method="post" target="_blank" encode="multipartformdata">
-
-                        <?php // foreach ($data as $val) : ?>
-                        <!-- <input type="hidden" name="data[]" value="<?= $val ?>"> Forma Compleja de pasar un Array en PHP, se recibe $data = $_POST["data"]; -->
-                        <?php // endforeach ?>
-
-                        <?php
-                            // echo '<input type="hidden" name="data" value="' . htmlspecialchars(json_encode($data)) . '">'; // Forma de Pasar un Array en PHP, se Recibe con jsondecode.
-                        ?>
-
-                        <input type="hidden" name="data" value="<?php echo htmlspecialchars(json_encode($data)); ?>"> <!-- Forma de Pasar un Array en HTML, se Recibe con jsondecode. -->
-
-                        <input type="submit" name="index" value="Ver Informe" class="btn btn-info btn-lg">
-                        </form>
-                        <script>
-                            var date = document.getElementById("year");
-                            const d = new Date();
-                            let year = d.getFullYear();
-                            date.value = year;
-                        </script>
-                        <br><br>
+                    <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                    <?php
+                        if (isset($data))
+                        {
+                            echo '<h3>Exportando los Datos a Excel o CSV</h3>
+                            <br>
+                            <div class="col-md-5">
+                            <h4>Haz Click en Ver Informe.</h4>
+                            <br>
+                            <form action="export.php" method="post" target="_blank">
+                                <input type="hidden" name="data" value="' . htmlspecialchars(json_encode($data)) . '">
+                                <input type="submit" name="index" value="Ver Informe" class="btn btn-info btn-lg">
+                            </form>';
+                        }
+                    ?>
+                    <br><br>
                     </div>
                 </div>
             </div>
