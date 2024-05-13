@@ -86,84 +86,70 @@ function addColon()
 
 function drawBasic() // Gráfica de Barras.
 {
-    if (length > 0)
-    {
-        let values = [];
-        values = getValues(); // Llama a la función que obtiene los valores de InfluxDB.
+    let values = [];
+    values = getValues(); // Llama a la función que obtiene los valores de InfluxDB.
 
-        for (i = 1; i < values.length; i++) // Bucle para Corregir las Fechas para Ordenar por Fecha y Tamaño de Paquete, Se Inicia en el Índice 1.
-        {
-            var date = values[i][0].substr(0, 10); // Corta los 10 Primeros Caracteres de la Cadena con Formato de Fecha ISO 8601 Date and Time(2024-05-09T15:14:33Z).
-            let each = date.split("-");
-            each[1]--; // Reduce en 1 el Mes ya que los Meses en Javascript Van de 0 a 11.
-            let my_date = new Date(each[0], each[1], each[2]);
-            values[i][0] = my_date;
-        }
-        
-        var options = {
-            title: 'Ataques Totales',
-            'height':480,
-            colors: ['#ff0000'],
-            bar: {
-                groupWidth: "80%"
-            },
-            hAxis: {
-                title: 'Ataques de Mayor a Menor, Por Cantidad, Tamaño de Paquete y por Fecha',
-                format: 'd MMM YYYY',
-                gridlines: {count: 7},
-                viewWindow: {
-                    min: new Date(Date.now() - (7 * 24 * 60 * 60 * 1000)),
-                    max: new Date()
-                },
-            },
-            vAxis: {
-                title: 'Rating (Escala 1:1000)'
-            },
-            tooltip: {isHtml: true}
-        };
-
-        var data = google.visualization.arrayToDataTable(values);
-        // var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-        var chart = new google.visualization.ColumnChart(chart_div);
-        chart.draw(data, options);
-    }
-    else
+    for (i = 1; i < values.length; i++) // Bucle para Corregir las Fechas para Ordenar por Fecha y Tamaño de Paquete, Se Inicia en el Índice 1.
     {
-        toast(0, 'Sin Datos Aun', 'No Hay Datos de la Última Hora.');
+        var date = values[i][0].substr(0, 10); // Corta los 10 Primeros Caracteres de la Cadena con Formato de Fecha ISO 8601 Date and Time(2024-05-09T15:14:33Z).
+        let each = date.split("-");
+        each[1]--; // Reduce en 1 el Mes ya que los Meses en Javascript Van de 0 a 11.
+        let my_date = new Date(each[0], each[1], each[2]);
+        values[i][0] = my_date;
     }
+    
+    var options = {
+        title: 'Ataques Totales',
+        'height':480,
+        colors: ['#ff0000'],
+        bar: {
+            groupWidth: "80%"
+        },
+        hAxis: {
+            title: 'Ataques de Mayor a Menor, Por Cantidad, Tamaño de Paquete y por Fecha',
+            format: 'd MMM YYYY',
+            gridlines: {count: 7},
+            viewWindow: {
+                min: new Date(Date.now() - (7 * 24 * 60 * 60 * 1000)),
+                max: new Date()
+            },
+        },
+        vAxis: {
+            title: 'Rating (Escala 1:1000)'
+        },
+        tooltip: {isHtml: true}
+    };
+
+    var data = google.visualization.arrayToDataTable(values);
+    // var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.ColumnChart(chart_div);
+    chart.draw(data, options);
 }
 
 function drawChart() // Gráfica de Anillo.
 {
-    if (length > 0)
+    let values = [];
+    values = getValues();
+
+    var options = {
+        title: 'Ataques Totales',
+        pieHole: 0.4,
+        slices: {}
+    };
+    
+    var color = 0; // Para los Colores Verde y Azul.
+
+    for (i = 1; i < values.length; i++)
     {
-        let values = [];
-        values = getValues();
-
-        var options = {
-            title: 'Ataques Totales',
-            pieHole: 0.4,
-            slices: {}
-        };
-        
-        var color = 0; // Para los Colores Verde y Azul.
-
-        for (i = 1; i < values.length; i++)
-        {
-            options.slices[i - 1] = {color: "rgb(255, " + color + ", " + color + ")"}; // Da color Rojo puro al primer valor.
-            if (i < values.length - 1 && values[i][1] != values[i + 1][1]) // Si el Índice del Array es Menor que el Tamaño del Array - 1 y el Primer Valor es Distinto del Segundo.
-                color += Math.trunc(256 / values.length); // Incrementa el Valor de Color, Hace el Color Más Claro.
-        }
-
-        var data = google.visualization.arrayToDataTable(values);
-        // var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        var chart = new google.visualization.PieChart(donutchart);
-        chart.draw(data, options);
+        options.slices[i - 1] = {color: "rgb(255, " + color + ", " + color + ")"}; // Da color Rojo puro al primer valor.
+        if (i < values.length - 1 && values[i][1] != values[i + 1][1]) // Si el Índice del Array es Menor que el Tamaño del Array - 1 y el Primer Valor es Distinto del Segundo.
+            color += Math.trunc(256 / values.length); // Incrementa el Valor de Color, Hace el Color Más Claro.
     }
-    else
-    {
-        toast(0, 'Sin Datos Aun', 'No Hay Datos de la Última Hora.');
-    }
+
+    var data = google.visualization.arrayToDataTable(values);
+    // var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+    var chart = new google.visualization.PieChart(donutchart);
+    chart.draw(data, options);
 }
 
 function getValues()
@@ -172,25 +158,39 @@ function getValues()
     let values = [];
     let data = [];
 
-    for(i = 0; i < length; i++) // Acá Uso el Length Global, Para Poner los Datos del Array array_value de JavaScript en un Array Asociativo Llamado data.
+    if (length > 0)
     {
-        data.push({date: array_value[i + 7 + (i * 9)], length: parseInt(array_value[i + 8 + (i * 9)]), mac_ip: array_value[i + 1 + (i * 9)].toUpperCase()});
+        for(i = 0; i < length; i++) // Acá Uso el Length Global, Para Poner los Datos del Array array_value de JavaScript en un Array Asociativo Llamado data.
+        {
+            data.push({date: array_value[i + 7 + (i * 9)], length: parseInt(array_value[i + 8 + (i * 9)]), mac_ip: array_value[i + 1 + (i * 9)].toUpperCase()});
+        }
+
+        data.sort(function (a, b)
+        {
+            return b.length - a.length;
+        });
+
+        values.push(['Fecha', 'Tamaño del Paquete', {role: 'style'}, {role: "tooltip", 'p': {'html': true}}]); // , 'Cantidad de Ataques']);
+
+        var color = 0;
+
+        for (i = 0; i < data.length; i++)
+        {
+            values[i + 1] = [data[i].date, data[i].length / 1000, 'color: ' + "rgb(255, " + color + ", " + color + ")", "<div class='toolbox'><strong>MAC: </strong>" + data[i].mac_ip  + "<br>" + "<strong>Tamaño: </strong>" + data[i].length / 1000 + " KBytes</div>"]; // , data[i].amount];
+            if (i < data.length - 1 && data[i].length != data[i + 1].length)
+                color+=Math.trunc(256 / data.length);
+        }
     }
-
-    data.sort(function (a, b)
+    else
     {
-        return b.length - a.length;
-    });
+        values.push(['Fecha', 'Tamaño del Paquete', {role: 'style'}, {role: "tooltip", 'p': {'html': true}}]); // , 'Cantidad de Ataques']);
 
-    values.push(['Fecha', 'Tamaño del Paquete', {role: 'style'}, {role: "tooltip", 'p': {'html': true}}]); // , 'Cantidad de Ataques']);
+        const todayDate = new Date();
 
-    var color = 0;
-
-    for (i = 0; i < data.length; i++)
-    {
-        values[i + 1] = [data[i].date, data[i].length / 1000, 'color: ' + "rgb(255, " + color + ", " + color + ")", "<div class='toolbox'><strong>MAC: </strong>" + data[i].mac_ip  + "<br>" + "<strong>Tamaño: </strong>" + data[i].length / 1000 + " KBytes</div>"]; // , data[i].amount];
-        if (i < data.length - 1 && data[i].length != data[i + 1].length)
-            color+=Math.trunc(256 / data.length);
+        for (i = 0; i < 7; i++)
+        {
+            values[i + 1] = [todayDate.toISOString() + i, 5, 'color: green', "<div class='toolbox'><strong>MAC: </strong>No Hay Datos<br>" + "<strong>Tamaño: </strong>0 KBytes</div>"];
+        }
     }
 
     return values;
