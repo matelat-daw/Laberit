@@ -113,7 +113,8 @@ function drawBasic() // Gráfica de Barras.
         },
         vAxis: {
             title: 'Rating (Escala 1:1000)'
-        }
+        },
+        tooltip: {isHtml: true}
     };
 
     var data = google.visualization.arrayToDataTable(values);
@@ -155,7 +156,7 @@ function getValues()
 
     for(i = 0; i < length; i++) // Acá Uso el Length Global, Para Poner los Datos del Array array_value de JavaScript en un Array Asociativo Llamado data.
     {
-        data.push({date: array_value[i + 7 + (i * 9)], length: parseInt(array_value[i + 8 + (i * 9)]), mac_ip: array_value[i + 1 + (i * 9)] + " - " + array_value[i + (i * 9)]});
+        data.push({date: array_value[i + 7 + (i * 9)], length: parseInt(array_value[i + 8 + (i * 9)]), mac_ip: array_value[i + 1 + (i * 9)]});
     }
 
     data.sort(function (a, b)
@@ -163,14 +164,14 @@ function getValues()
         return b.length - a.length;
     });
 
-    values.push(['Fecha', 'Tamaño del Paquete', {role: 'style'}, {role: 'annotationText'}]); // , 'Cantidad de Ataques']);
+    values.push(['Fecha', 'Tamaño del Paquete', {role: 'style'}, {role: "tooltip", 'p': {'html': true}}]); // , 'Cantidad de Ataques']);
 
     var color = 0;
 
     for (i = 0; i < data.length; i++)
     {
-        values[i + 1] = [data[i].date, data[i].length / 1000, 'color: ' + "rgb(255, " + color + ", " + color + ")", data[i].mac_ip]; // , data[i].amount];
-        if (i < data.length - 1 && data[i].length != data[i + 1].length)
+        values[i + 1] = [data[i].date, data[i].length / 1000, 'color: ' + "rgb(255, " + color + ", " + color + ")", "<div class='toolbox'><strong>MAC: </strong>" + data[i].mac_ip  + "<br>" + "<strong>Tamaño: </strong>" + data[i].length / 1000 + " KBytes</div>"]; // , data[i].amount];
+        if (i < data.length - 1 && data[i].mac_ip != data[i + 1].mac_ip)
             color+=Math.trunc(256 / data.length);
     }
 

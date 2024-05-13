@@ -77,3 +77,10 @@ span
 {
     margin-left: 15%;
 }
+
+.toolbox
+{
+    padding: 10px;
+    white-space: nowrap;
+    font-size: 18px;
+}
