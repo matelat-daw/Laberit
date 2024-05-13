@@ -1,5 +1,5 @@
 <?php
-require "vendor/autoload.php";
+require "Influx/autoload.php";
 include "includes/conn.php";
 $title = "Detección de Intrusión";
 include "includes/header.php";

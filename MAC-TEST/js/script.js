@@ -62,11 +62,6 @@ function change(page, qtty) // Función que muestra los resultados de a 5 en la 
     }
 }
 
-/* function wait() // Se muestra una alerta para indicar que verificar la IP demora unos 10 segundos.
-{
-    alert("Verificar la IP demora unos segundos.\nHaz Click en Aceptar y Se Cargará una Nueva Página Después de Aproximadamente 10 Segundos.");
-} */
-
 function addColon()
 {
     mac.addEventListener("keydown", (e) => {
@@ -89,34 +84,41 @@ function addColon()
 function drawBasic() // Gráfica de Barras.
 {
     let values = [];
+    values = getValues(); // Llama a la función que obtiene los valores de InfluxDB.
 
-    values = getValues(); /// Llama a la función que obtiene los valores de InfluxDB.
-
-    var data = google.visualization.arrayToDataTable(values);
+    for (i = 1; i < values.length; i++) // Bucle para Corregir las Fechas para Ordenar por Fecha y Tamaño de Paquete, Se Inicia en el Índice 1.
+    {
+        var date = values[i][0].substr(0, 10); // Corta los 10 Primeros Caracteres de la Cadena con Formato de Fecha ISO 8601 Date and Time(2024-05-09T15:14:33Z).
+        let each = date.split("-");
+        each[1]--; // Reduce en 1 el Mes ya que los Meses en Javascript Van de 0 a 11.
+        let my_date = new Date(each[0], each[1], each[2]);
+        values[i][0] = my_date;
+    }
     
     var options = {
-    title: 'Ataques Totales',
-    'height':480,
-    colors: ['#ff0000'],
-    bar: {
-        groupWidth: "80%"
-    },
-    hAxis: {
-        title: 'Ataques de Mayor a Menor, Por Cantidad y por Tamaño de Paquete',
-        format: 'd MMM YYYY',
-        gridlines: {count: 10},
-        viewWindow: {
-            min: new Date(Date.now() - (7 * 24 * 60 * 60 * 1000)),
-            max: new Date()
+        title: 'Ataques Totales',
+        'height':480,
+        colors: ['#ff0000'],
+        bar: {
+            groupWidth: "80%"
         },
-    },
-    vAxis: {
-        title: 'Rating (Escala 1:1000)'
-    }
+        hAxis: {
+            title: 'Ataques de Mayor a Menor, Por Cantidad, Tamaño de Paquete y por Fecha',
+            format: 'd MMM YYYY',
+            gridlines: {count: 7},
+            viewWindow: {
+                min: new Date(Date.now() - (7 * 24 * 60 * 60 * 1000)),
+                max: new Date()
+            },
+        },
+        vAxis: {
+            title: 'Rating (Escala 1:1000)'
+        }
     };
 
-    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-
+    var data = google.visualization.arrayToDataTable(values);
+    // var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.ColumnChart(chart_div);
     chart.draw(data, options);
 }
 
@@ -124,69 +126,53 @@ function drawChart() // Gráfica de Anillo.
 {
     let values = [];
     values = getValues();
-    for (i = 1; i < values.length; i++)
-    {
-        values[i][0]= values[i][0].toString();
-    }
 
     var options = {
         title: 'Ataques Totales',
-        width: 1280,
         pieHole: 0.4,
         slices: {}
     };
       
-    var color = 0;
-    for(var i = 0; i < values.length; i++)
+    var color = 0; // Para los Colores Verde y Azul.
+
+    for (i = 1; i < values.length; i++)
     {
-        options.slices[i] = {color: "rgb(255,"+color+","+color+")"};
-        color+=Math.round(256/(values.length - 1));
+        options.slices[i - 1] = {color: "rgb(255, " + color + ", " + color + ")"}; // Da color Rojo puro al primer valor.
+        if (i < values.length - 1 && values[i][1] != values[i + 1][1]) // Si el Índice del Array es Menor que el Tamaño del Array - 1 y el Primer Valor es Distinto del Segundo.
+            color += Math.trunc(256 / values.length); // Incrementa el Valor de Color, Hace el Color Más Claro.
     }
 
     var data = google.visualization.arrayToDataTable(values);
-    
-    var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+    // var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+    var chart = new google.visualization.PieChart(donutchart);
     chart.draw(data, options);
 }
 
 function getValues()
 {
     let values = [];
-    let sizes = [];
+    let data = [];
 
-    for(i = 0; i < length; i++)
+    for(i = 0; i < length; i++) // Acá Uso el Length Global, Para Poner los Datos del Array array_value de JavaScript en un Array Asociativo Llamado data.
     {
-        var date = array_value[i + 7 + (i * 9)].substr(0, 10);
-        let each = date.split("-");
-        each[1]--;
-        let my_date = new Date(each[0], each[1], each[2]);
-        if(!sizes.map(e => e.size).includes(array_value[i + 8 + (i * 9)]))
-            // sizes.push({mac: array_value[i + 1 + (i * 9)], date: my_date, size: parseInt(array_value[i + 8 + (i * 9)]), amount: 1});
-        // sizes.push({date: my_date, size: parseInt(array_value[i + 8 + (i * 9)]), amount: 1});
-        sizes.push({date: array_value[i + 7 + (i * 9)], size: parseInt(array_value[i + 8 + (i * 9)]), amount: 1});
-        else{
-            sizes[sizes.map(e => e.size).indexOf(array_value[i + 8 + (i * 9)])].amount++;
-        }
+        data.push({date: array_value[i + 7 + (i * 9)], length: parseInt(array_value[i + 8 + (i * 9)]), mac_ip: array_value[i + 1 + (i * 9)] + " - " + array_value[i + (i * 9)]});
     }
 
-    sizes.sort(function (a, b)
+    data.sort(function (a, b)
     {
-        return b.amount - a.amount || b.size - a.size;
+        return b.length - a.length;
     });
 
-    // values.push(['Fecha', 'Tamaño del Paquete', {role: 'style'}, 'Cantidad de Ataques']);
-    values.push(['Fecha', 'Tamaño del Paquete', {role: 'style'}]); // , 'Cantidad de Ataques']);
+    values.push(['Fecha', 'Tamaño del Paquete', {role: 'style'}, {role: 'annotationText'}]); // , 'Cantidad de Ataques']);
 
     var color = 0;
-    for (i = 0; i < sizes.length; i++)
-    {
-        values[i + 1] = [sizes[i].date, sizes[i].size / 1000, 'color: ' + "rgb(255,"+color+","+color+")"]; // , sizes[i].amount];
-        // values[i + 1] = [sizes[i].date, sizes[i].amount, 'color: ' + "rgb(255,"+color+","+color+")"];
-        color+=Math.trunc(256/sizes.length) - 1;
-        
-    }
 
-    // values.unshift(['Ataques', 'Ataques']);
+    for (i = 0; i < data.length; i++)
+    {
+        values[i + 1] = [data[i].date, data[i].length / 1000, 'color: ' + "rgb(255, " + color + ", " + color + ")", data[i].mac_ip]; // , data[i].amount];
+        if (i < data.length - 1 && data[i].length != data[i + 1].length)
+            color+=Math.trunc(256 / data.length);
+    }
 
     return values;
 }
@@ -215,7 +201,6 @@ function toast(warn, ttl, msg) // Función para mostrar el Diálogo con los mens
 
 function screenSize() // Función para dar el tamaño máximo de la pantalla a las vistas.
 {
-    let view4 = document.getElementById("view4");
     let height = window.innerHeight; // window.innerHeight es el tamaño vertical de la pantalla.
 
     if (view1.offsetHeight < height) // Si el tamaño vertical de la vista es menor que el tamaño vertical de la pantalla.

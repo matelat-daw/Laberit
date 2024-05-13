@@ -1,5 +1,5 @@
 <?php
-require "vendor/autoload.php";
+require "Influx/autoload.php";
 include "includes/conn.php";
 $title = "Verificador de Direcciones MAC Intrusas.";
 include "includes/header.php";
@@ -42,6 +42,8 @@ include "includes/nav_index.html";
                     $query = "from(bucket: \"$bucket\") |> range(start: -8d) |> filter(fn: (r) => r._measurement == \"intruder\")"; // Consulta a InfluxDB.
                     $tables = $client->createQueryApi()->query($query, $org); // Ejecuta la Consulta Asignado el Resutlado a la Variable $tables.
                     $records = []; // $records Contendrá todos los Resultados de la Tabla intruder de la Base de Datos MACDB.
+                    $data = [];
+                    $i = 0;
                     foreach ($tables as $table) // Obtiene cada Tabla de las Tablas de la Variable $tables(Solo Obtiene la Tabla intruder).
                     {
                         foreach ($table->records as $record) // De la Tabla intruder Obtiene cada Campo Almacenado en la Varaible $record.
@@ -72,6 +74,7 @@ include "includes/nav_index.html";
                                     echo "<script>array_key[" . $i . "] = '" . key($key) . "';</script>"; // Almaceno Las Tags en el Array de Tags de Javascript.
                                 }
                                 echo "<script>array_value[" . $i . "] = '" . $value . "';</script>"; // Almaceno Los Valores en el Array de Valores de Javascript.
+                                $data[$i] = $value;
                                 next($key); // Siguiente Clave.
                                 $i++; // Siguiente Índice.
                             }
@@ -109,9 +112,40 @@ include "includes/nav_index.html";
                         google.charts.setOnLoadCallback(drawBasic);</script>
 
                         <!-- Este Código Dibuja un Anillo -->
-                    <div id="donutchart" style="width: 960px; height: 680px;"></div>
+                    <div id="donutchart" style="width: 960px; height: 640px;"></div>
                     <script>google.charts.load("current", {packages:["corechart"]});
                         google.charts.setOnLoadCallback(drawChart);</script>
+                    <br><br><br>
+                </div>
+                <div id="view4">
+                    <br><br><br><br><br><br><br><br><br><br><br><br>
+                    <h3>Exportando los Datos a Excel o CSV</h3>
+                    <br>
+                    <div class="col-md-5">
+                    <h4>Haz Click en Ver Informe.</h4>
+                    <br>
+                    <form action="export.php" method="post" target="_blank" encode="multipartformdata">
+
+                        <?php // foreach ($data as $val) : ?>
+                        <!-- <input type="hidden" name="data[]" value="<?= $val ?>"> Forma Compleja de pasar un Array en PHP, se recibe $data = $_POST["data"]; -->
+                        <?php // endforeach ?>
+
+                        <?php
+                            // echo '<input type="hidden" name="data" value="' . htmlspecialchars(json_encode($data)) . '">'; // Forma de Pasar un Array en PHP, se Recibe con jsondecode.
+                        ?>
+
+                        <input type="hidden" name="data" value="<?php echo htmlspecialchars(json_encode($data)); ?>"> <!-- Forma de Pasar un Array en HTML, se Recibe con jsondecode. -->
+
+                        <input type="submit" name="index" value="Ver Informe" class="btn btn-info btn-lg">
+                        </form>
+                        <script>
+                            var date = document.getElementById("year");
+                            const d = new Date();
+                            let year = d.getFullYear();
+                            date.value = year;
+                        </script>
+                        <br><br>
+                    </div>
                 </div>
             </div>
         <div class="col-md-1"></div>
