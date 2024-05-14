@@ -109,12 +109,12 @@ include "includes/nav_index.html";
                     <!-- Este Código Dibuja una Gráfica de Barras -->
                     <div id="chart_div"></div>
                     <script>google.charts.load('current', {packages: ['corechart', 'bar']});
-                        google.charts.setOnLoadCallback(drawBasic);</script>
+                        google.charts.setOnLoadCallback(drawBars);</script>
 
                         <!-- Este Código Dibuja un Anillo -->
                     <div id="donutchart" style="width: 960px; height: 640px;"></div>
                     <script>google.charts.load("current", {packages:["corechart"]});
-                        google.charts.setOnLoadCallback(drawChart);</script>
+                        google.charts.setOnLoadCallback(drawDonut);</script>
                     <br><br><br>
                 </div>
                 <div id="view4">

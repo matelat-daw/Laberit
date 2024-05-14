@@ -84,7 +84,7 @@ function addColon()
     });
 }
 
-function drawBasic() // Gráfica de Barras.
+function drawBars() // Gráfica de Barras.
 {
     let values = [];
     values = getValues(); // Llama a la función que obtiene los valores de InfluxDB.
@@ -126,30 +126,37 @@ function drawBasic() // Gráfica de Barras.
     chart.draw(data, options);
 }
 
-function drawChart() // Gráfica de Anillo.
+function drawDonut() // Gráfica de Anillo.
 {
     let values = [];
     values = getValues();
 
-    var options = {
-        title: 'Ataques Totales',
-        pieHole: 0.4,
-        slices: {}
-    };
-    
-    var color = 0; // Para los Colores Verde y Azul.
-
-    for (i = 1; i < values.length; i++)
+    if (values[0][0] != "No Data")
     {
-        options.slices[i - 1] = {color: "rgb(255, " + color + ", " + color + ")"}; // Da color Rojo puro al primer valor.
-        if (i < values.length - 1 && values[i][1] != values[i + 1][1]) // Si el Índice del Array es Menor que el Tamaño del Array - 1 y el Primer Valor es Distinto del Segundo.
-            color += Math.trunc(256 / values.length); // Incrementa el Valor de Color, Hace el Color Más Claro.
-    }
+        var options = {
+            title: 'Ataques Totales',
+            pieHole: 0.4,
+            slices: {}
+        };
+        
+        var color = 0; // Para los Colores Verde y Azul.
 
-    var data = google.visualization.arrayToDataTable(values);
-    // var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-    var chart = new google.visualization.PieChart(donutchart);
-    chart.draw(data, options);
+        for (i = 1; i < values.length; i++)
+        {
+            options.slices[i - 1] = {color: "rgb(255, " + color + ", " + color + ")"}; // Da color Rojo puro al primer valor.
+            if (i < values.length - 1 && values[i][1] != values[i + 1][1]) // Si el Índice del Array es Menor que el Tamaño del Array - 1 y el Primer Valor es Distinto del Segundo.
+                color += Math.trunc(256 / values.length); // Incrementa el Valor de Color, Hace el Color Más Claro.
+        }
+
+        var data = google.visualization.arrayToDataTable(values);
+        // var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        var chart = new google.visualization.PieChart(donutchart);
+        chart.draw(data, options);
+    }
+    else
+    {
+        donutchart.innerHTML = "<h1>No Hay Datos</h1>";
+    }
 }
 
 function getValues()
@@ -183,14 +190,9 @@ function getValues()
     }
     else
     {
-        values.push(['Fecha', 'Tamaño del Paquete', {role: 'style'}, {role: "tooltip", 'p': {'html': true}}]); // , 'Cantidad de Ataques']);
+        values.push(['No Data', 'No Hay Datos']); // , 'Cantidad de Ataques']);
 
-        const todayDate = new Date();
-
-        for (i = 0; i < 7; i++)
-        {
-            values[i + 1] = [todayDate.toISOString() + i, 5, 'color: green', "<div class='toolbox'><strong>MAC: </strong>No Hay Datos<br>" + "<strong>Tamaño: </strong>0 KBytes</div>"];
-        }
+        values[1] = ["0", 0];
     }
 
     return values;
