@@ -37,6 +37,7 @@ if (isset($_POST["ip"])) // Recibe la IP y los Demás Datos desde el script inde
     }
     $writeApi = $client->createWriteApi();
     $data = "intruder,ip=$ip,mac=$mac,host=$host,protocol=$protocol,localPort=$local_port,remotePort=$remote_port,oui=$oui mark=\"$mark\",length=$length"; // Los Tags en Influx no pueden tener espacios.
+    // $data = "intruder,tag=tag ip=\"$ip\",mac=\"$mac\",host=\"$host\",protocol=\"$protocol\",localPort=\"$local_port\",remotePort=\"$remote_port\",oui=\"$oui\",mark=\"$mark\",length=$length"; // Los Tags en Influx no pueden tener espacios.
     $writeApi->write($data, WritePrecision::S, $bucket, $org);
 
     $client->close();
