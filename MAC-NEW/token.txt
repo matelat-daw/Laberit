@@ -24,7 +24,7 @@ curl http://localhost:8086/query --header "Authorization: Token h7ehkw6Bvt_zIrTP
 Write Data to InfluxDB:
 
 
-influx write -b SAIDI_DATA -f insert.csv
+influx write -b SAIDI_DATA -f insert.csv // OJO tiene que tener un Formato Especial, en el Encabezado Hay que Declarar Cada Tipo de Datos(#datatype)
 
 
 
