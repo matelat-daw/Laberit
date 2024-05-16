@@ -23,26 +23,34 @@ function next() // La Función next muestra la página siguiente.
 
 function change(page, qtty) // Función que muestra los resultados de a 5 en la tabla, recibe la página page, la cantidad de resultados a mostrar qtty y true si viene de index y false si viene de profile.
 {
-    if (typeof array_key != "undefined" && array_key.length > 0)
+    if (typeof array_value != "undefined" && array_value.length > 0)
     {
         window.page = page; // Asigno la variable page, a la variable global window.page.
         window.qtty = qtty; // Asigno la variable qtty, a la variable global window.qtty.
-        const tags = array_key.length - 1; // Cantidad de Datos en Cada Tupla de Valores.
-        var length = array_value.length / (tags + 1); // Obtengo en length el Tamaño de Cada Tupla en el Array de Valores.
-        window.length = length; // Hago global la variable length.
+        const array_length = array_value.length;
+        const data_length = array_value[0].length;
+        // const tags = array_key.length - 1; // Cantidad de Datos en Cada Tupla de Valores.
+        // var length = array_value.length / (tags + 1); // Obtengo en length el Tamaño de Cada Tupla en el Array de Valores.
+        window.length = array_length; // Hago global la variable length.
 
-        var html = "<table><tr class='text-center'><th>IP</th><th>MAC</th><th>Host</th><th>Puerto Local</th><th>Puerto Remoto</th><th>Protocolo</th><th>OUI</th><th>Tamaño del Paquete</th><th>Marca</th><th>Fecha</th></tr>";
-        for (i = (page - 1) * qtty; i < page * qtty; i++) // Aquí hago el bucle desde la página donde esté, a la cantidad de resultados a mostrar.
+        var html = "<table><tr class='text-center'><th>MAC</th><th>Marca</th><th>OUI</th><th>Fecha</th><th>Nº Paquetes</th><th>Unicast</th><th>Multicast</th><th>Broadcast</th><th>ARP</th><th>Trafico</th><th>ICMP</th><th>UDP</th><th>TCP</th><th>Resto</th><th>IPV6</th><th>ARP46</th><th>Otro</th><th>SSDP</th><th>ICMP6</th></tr>";
+        console.log(array_value);
+        // for (i = (page - 1) * qtty; i < page * qtty; i++) // Aquí hago el bucle desde la página donde esté, a la cantidad de resultados a mostrar.
+        for (i = 0 + qtty * (page - 1); i < array_length && i < qtty * page; i++)
         {
-            if (i < length) // Si i es menor que el tamaño del array.
+            html += "<tr>";
+            for (j = 0; j < data_length; j++)
             {
-                html += "<tr><td>" + array_value[i + (tags * i)] + "</td><td>" + array_value[i + 1 + (tags * i)] + "</td><td>" + array_value[i + 2 + (tags * i)] + "</td><td>" + array_value[i + 3 + (tags * i)] + "</td><td>" + array_value[i + 4 + (tags * i)] + "</td><td>" + array_value[i + 5 + (tags * i)] + "</td><td>" + array_value[i + 6 + (tags * i)] + "</td><td>" + array_value[i + 8 + (tags * i)] + "</td><td>" + array_value[i + 9 + (tags * i)] + "</td><td>" + array_value[i + 7 + (tags * i)] + "</td></tr>";
+
+                    // html += "<tr><td>" + array_value[i + (tags * i)] + "</td><td>" + array_value[i + 1 + (tags * i)] + "</td><td>" + array_value[i + 2 + (tags * i)] + "</td><td>" + array_value[i + 3 + (tags * i)] + "</td><td>" + array_value[i + 4 + (tags * i)] + "</td><td>" + array_value[i + 5 + (tags * i)] + "</td><td>" + array_value[i + 6 + (tags * i)] + "</td><td>" + array_value[i + 7 + (tags * i)] + "</td><td>" + array_value[i + 8 + (tags * i)] + "</td><td>" + array_value[i + 9 + (tags * i)] + "</td><td>" + array_value[i + 10 + (tags * i)] + "</td><td>" + array_value[i + 11 + (tags * i)] + "</td><td>" + array_value[i + 12 + (tags * i)] + "</td><td>" + array_value[i + 13 + (tags * i)] + "</td><td>" + array_value[i + 14 + (tags * i)] + "</td><td>" + array_value[i + 15 + (tags * i)] + "</td><td>" + array_value[i + 16 + (tags * i)] + "</td><td>" + array_value[i + 17 + (tags * i)] + "</td><td>" + array_value[i + 18 + (tags * i)] + "</td></tr>";
+                    html += "<td>" + array_value[i][j] + "</td>";
             }
+            html += "</tr>";
         }
-        html += "</table>";
+        html += "</tr></table>";
         table.innerHTML = html; // Muestro todo en pantalla.
 
-        if (length > 5) // Si la cantidad de Artículos es mayor que 5.
+        if (length > 8) // Si la cantidad de Artículos es mayor que 5.
         {
             pages.innerHTML = "Página: " + page; // Muestro el número de página.
             if (page == 1) // Si la página es la número 1
@@ -88,7 +96,6 @@ function drawBars() // Gráfica de Barras.
 {
     let values = [];
     values = getValues(); // Llama a la función que obtiene los valores de InfluxDB.
-
     for (i = 1; i < values.length; i++) // Bucle para Corregir las Fechas para Ordenar por Fecha y Tamaño de Paquete, Se Inicia en el Índice 1.
     {
         var date = values[i][0].substr(0, 10); // Corta los 10 Primeros Caracteres de la Cadena con Formato de Fecha ISO 8601 Date and Time(2024-05-09T15:14:33Z).
@@ -183,7 +190,7 @@ function getValues()
 
         for (i = 0; i < data.length; i++)
         {
-            values[i + 1] = [data[i].date, data[i].length / 1000, 'color: ' + "rgb(255, " + color + ", " + color + ")", "<div class='toolbox'><strong>MAC: </strong>" + data[i].mac_ip  + "<br>" + "<strong>Tamaño: </strong>" + data[i].length / 1000 + " KBytes</div>"]; // , data[i].amount];
+            values[i + 1] = [data[i].date, data[i].length, 'color: ' + "rgb(255, " + color + ", " + color + ")", "<div class='toolbox'><strong>MAC: </strong>" + data[i].mac_ip  + "<br>" + "<strong>Tamaño: </strong>" + data[i].length / 1000 + " KBytes</div>"]; // , data[i].amount];
             if (i < data.length - 1 && data[i].length != data[i + 1].length)
                 color+=Math.trunc(256 / data.length);
         }

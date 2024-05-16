@@ -49,36 +49,33 @@ include "includes/nav_index.html";
 
                         $i = 0; // Índice de Todos los Datos de Todas las Tuplas.
                         $z = 0; // Se usa para almacenar los Tags Solo una Vez.
-                        echo "<script>var array_key = [];
-                                    var array_value = [];</script>"; // Creo las Variables de Tipo Array de Javascript.
+                        $pos = 0; 
+                        echo   "<script>
+                                    var array_key = [];
+                                    var array_value = [];
+                                </script>"; // Creo las Variables de Tipo Array de Javascript.
+
                         foreach($records as $key) // Bucle para Obtener las Keys.
                         {
                             $z++; // Incremento $z.
+                            $i = 0;
+                            echo "<script>array_value[" . $pos . "] = [];</script>";
+                            $data[$pos] = [];
                             foreach ($key as $value) // Bucle para Obtener los Valores de cada Clave.
                             {
-                                if ($z == 1) // Si $z es 1.
-                                {
-                                    echo "<script>array_key[" . $i . "] = '" . key($key) . "';</script>"; // Almaceno Las Tags en el Array de Tags de Javascript.
-                                }
-                                echo "<script>array_value[" . $i . "] = '" . $value . "';</script>"; // Almaceno Los Valores en el Array de Valores de Javascript.
-                                $data[$i] = $value;
+                                echo "<script>array_value[" . $pos . "][" . $i . "] = '" . $value . "';</script>"; // Almaceno Los Valores en el Array de Valores de Javascript.
+                                $data[$pos][$i] = $value;
                                 next($key); // Siguiente Clave.
                                 $i++; // Siguiente Índice.
+                                
                             }
+                            $pos++;
                         }
-                    }
+                    }   
                     else // Si No Hay Datos.
                     {
                         echo "<script>toast(0, 'Sin Datos Aun', 'No Hay Datos de la Última Hora.');</script>"; // Mensaje No Hay Datos.
                     }
-                    /* for ($j = 0; $j < $i / 9; $j++)
-                    {
-                        echo "<script>console.log('Las Tags Son: ' + array_key[" . $j . "]);</script>";
-                    }
-                    for ($j = 0; $j < $i; $j++)
-                    {
-                        echo "<script>console.log('Los Datos Son: ' + array_value[" . $j . "]);</script>";
-                    } */
                     ?>
                     <div id="table"></div>
                     <br>

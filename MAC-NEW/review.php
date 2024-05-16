@@ -22,10 +22,11 @@ if (isset($_POST["sended"])) // Recibe la IP y los Demás Datos desde el script 
     $line = [];
     $data = [];
     $i = 0;
-    $datos = fopen($file, "r") or die("Unable to open file!");
+    $datos = fopen($path, "r") or die("Unable to open file!");
     while(!feof($datos))
     {
         $line[$i] = fgets($datos);
+        $line[$i] = trim($line[$i]);
         $data[$i] = explode(";", $line[$i]);
         $i++;
     }
@@ -57,7 +58,10 @@ if (isset($_POST["sended"])) // Recibe la IP y los Demás Datos desde el script 
             $private = true;
         }
         $writeApi = $client->createWriteApi();
-        $save = 'aintrusa,mac=' . $data[$i][0] . ',mark=' . $owner . ',oui=' . $oui . ' qtty=' . $data[$i][1] . ',uni=' . $data[$i][2] . ',multi=' . $data[$i][3] . ',broad=' . $data[$i][4] . ',arp=' . $data[$i][5] . ',traffic=' . $data[$i][6] . ',icmp=' . $data[$i][7] . ',tcp=' . $data[$i][8] . ',udp=' . $data[$i][9] . ',resto=' . $data[$i][10] . ',ipv6=' . $data[$i][11] . ',arp46=' . $data[$i][12] . ',badip=' . $data[$i][13] . ',ssdp=' . $data[$i][14] . ',icmp6="' . $data[$i][15] . '"'; // Los Tags en Influx no pueden tener espacios.
+        // $save = 'aintrusa,mac=' . $data[$i][0] . ',mark=' . $owner . ',oui=' . $oui . ' qtty=' . $data[$i][1] . ',uni=' . $data[$i][2] . ',multi=' . $data[$i][3] . ',broad=' . $data[$i][4] . ',arp=' . $data[$i][5] . ',traffic=' . $data[$i][6] . ',icmp=' . $data[$i][7] . ',tcp=' . $data[$i][8] . ',udp=' . $data[$i][9] . ',resto=' . $data[$i][10] . ',ipv6=' . $data[$i][11] . ',arp46=' . $data[$i][12] . ',badip=' . $data[$i][13] . ',ssdp=' . $data[$i][14] . ',icmp6=' . $data[$i][15]; // Los Tags en Influx no pueden tener espacios.
+
+        $save = 'aintrusa,mac=' . $data[$i][0] . ',mark=' . $owner . ',oui=' . $oui . ' qtty=' . $data[$i][9] . ',uni=' . $data[$i][15] . ',multi=' . $data[$i][8] . ',broad=' . $data[$i][4] . ',arp=' . $data[$i][1] . ',traffic=' . $data[$i][13] . ',icmp=' . $data[$i][5] . ',tcp=' . $data[$i][12] . ',udp=' . $data[$i][14] . ',resto=' . $data[$i][10] . ',ipv6=' . $data[$i][7] . ',arp46=' . $data[$i][2] . ',badip=' . $data[$i][3] . ',ssdp=' . $data[$i][11] . ',icmp6=' . $data[$i][6];
+
         $writeApi->write($save, WritePrecision::MS, $bucket, $org);
         $client->close();
     }
