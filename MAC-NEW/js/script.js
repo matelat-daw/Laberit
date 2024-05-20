@@ -96,29 +96,32 @@ function drawBars() // Gráfica de Barras.
 {
     let values = [];
     values = getValues(); // Llama a la función que obtiene los valores de InfluxDB.
-    for (i = 1; i < values.length; i++) // Bucle para Corregir las Fechas para Ordenar por Fecha y Tamaño de Paquete, Se Inicia en el Índice 1.
-    {
-        var date = values[i][0].substr(0, 10); // Corta los 10 Primeros Caracteres de la Cadena con Formato de Fecha ISO 8601 Date and Time(2024-05-09T15:14:33Z).
-        let each = date.split("-");
-        each[1]--; // Reduce en 1 el Mes ya que los Meses en Javascript Van de 0 a 11.
-        let my_date = new Date(each[0], each[1], each[2]);
-        values[i][0] = my_date;
-    }
+
+    var date = values[1][0].substr(0, 19); // Corta los 19 Primeros Caracteres de la Cadena con Formato de Fecha ISO 8601 Date and Time.(2024-05-09T15:14:33Z).
+    
+    let each = date.split("-"); // Recuperamos los Meses.
+    let time =each[2].split("T"); // Partimos el Último Dato por la T.
+    each[2] = time[0]; // Es el Día, lo Asignamos a each[2].
+    time = time[1].split(":"); // Partimos la hora por los :.
+    each[1]--; // Reduce en 1 el Mes ya que los Meses en Javascript Van de 0 a 11.
+    let my_date = new Date(each[0], each[1], each[2], time[0], time[1], time[2]); // Reconstruimos la Fecha en Formato GMT.
+    values[1][0] = my_date; // Asignamos al Primer Valor de Tiempo del Array values la Fecha.
 
     var options = {
         title: 'Ataques Totales',
         height: 480,
         colors: ['#0000ff', '#808080', '#808080', '#808080', '#808080', '#808080', '#808080', '#808080', '#00ff00', '#808080', '#808080', '#ff0000', '#808080', '#800080', '#ff00ff', '#ffff00'],
         bar: {
-            groupWidth: "50%"
+            groupWidth: "20%"
         },
         hAxis: {
             title: 'Ataques de Mayor a Menor, Por Cantidad, Tamaño de Paquete y por Fecha',
-            format: 'd MMM YYYY',
-            gridlines: {count: 6},
+            format: 'd MMM YYYY HH:mm:ss', // Muestra la Fecha Anglo y la Hora Latin. 1 Jan 1970 13:00:00
+            gridlines: {count: 4},
             viewWindow: {
-                min: new Date(Date.now() - (2 * 24 * 60 * 60 * 1000)),
-                max: new Date()
+                // min: new Date(values[1][0] - (30 * 60 * 1000)),
+                min: new Date(values[1][0] - 30 * 60 * 1000),
+                max: new Date(values[1][0] - (-30 * 60 * 1000))
             },
         },
         vAxis: {
@@ -139,18 +142,21 @@ function getValues()
 
     if (vlength > 0)
     {
-        values.push(['Fecha', 'ARP', {role: "style"}, 'ARP46', 'Bad IP', 'Broadcast', 'ICPM', 'ICPM6', 'IPV6', 'Multicast', 'Nº Paquetes', {role: "style"}, 'Resto', 'SSDP', 'TCP', {role: "style"}, 'Trafico', 'UDP', {role: "style"}, 'Unicast', {role: "style"}, "MAC - Owner - Time", {role: "tooltip", 'p': {'html': true}}]);
+        values.push(['Fecha', 'ARP', 'ARP46', 'Bad IP', 'Broadcast', 'ICPM', 'ICPM6', 'IPV6', 'Multicast', 'Nº Paquetes', 'Resto', 'SSDP', 'TCP', 'Trafico', 'UDP', 'Unicast', "MAC - Owner - Time", {role: "tooltip", 'p': {'html': true}}]);
 
         var color = 0;
 
-        for (i = 0; i < vlength; i++)
+        for (i = 1; i < vlength; i++)
         {
-            values[i + 1] = [array_value[i][3], array_value[i][4], 'color: ' + "rgb(" + color + ", " + color + ", 255)", array_value[i][5], array_value[i][6], array_value[i][7], array_value[i][8], array_value[i][9], array_value[i][10], array_value[i][11], array_value[i][12], 'color: ' + "rgb(" + color +  ", 255, " + color + ")", array_value[i][13], array_value[i][14], array_value[i][17], 'color: ' + "rgb(255, " + color + ", " + color + ")", array_value[i][16], array_value[i][15], 'color: ' + "rgb(80, " + color + ", 80)", array_value[i][18], 'color: ' + "rgb(255, " + color + ", 255)", array_value[i][18], "<div class='toolbox'><strong>MAC: </strong>" + array_value[i][0] + "<br><strong>Marca: </strong>" + array_value[i][1] + "<br><strong>Fecha: </strong>" + array_value[i][3] + "</div>"];
-            if (i < vlength - 1 && array_value[i][15] != array_value[i + 1][15])
+            for (j = 4; j < hlength; j++)
             {
-                color+=Math.trunc(256 / vlength);
+                array_value[0][j] += array_value[i][j];
             }
         }
+
+        // values[1] = [array_value[0][3], array_value[0][4], array_value[0][5], array_value[0][6], array_value[0][7], array_value[0][8], array_value[0][9], array_value[0][10], array_value[0][11], array_value[0][12], array_value[0][13], array_value[0][14], array_value[0][17], array_value[0][16], array_value[0][15], array_value[0][18], array_value[0][18], "<div class='toolbox'><strong>MAC: </strong>" + array_value[0][0] + "<br><strong>Marca: </strong>" + array_value[0][1] + "<br><strong>Fecha: </strong>" + array_value[0][3] + "</div>"];
+
+        values.push([array_value[0][3], array_value[0][4], array_value[0][5], array_value[0][6], array_value[0][7], array_value[0][8], array_value[0][9], array_value[0][10], array_value[0][11], array_value[0][12], array_value[0][13], array_value[0][14], array_value[0][17], array_value[0][16], array_value[0][15], array_value[0][18], array_value[0][18], "<div class='toolbox'><strong>MAC: </strong>" + array_value[0][0] + "<br><strong>Marca: </strong>" + array_value[0][1] + "<br><strong>Fecha: </strong>" + array_value[0][3] + "</div>"]);
     }
     else
     {
