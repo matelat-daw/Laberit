@@ -10,23 +10,32 @@ if (isset($_POST["data"]) && isset($_POST["index"])) // Viene de index.php
 	
 if(isset($_POST["export"])) // Viene del Mismo Script.
 {
-    $data = $_POST["data"];
+    $data = json_decode($_POST["data"]);
 	$file = new PhpOffice\PhpSpreadsheet\Spreadsheet(); // Hay que usarlo así en Wordpress, también funciona en cualquier script de PHP.
 
 	$active_sheet = $file->getActiveSheet();
 
-	$active_sheet->setCellValue('A1', 'IP');
-	$active_sheet->setCellValue('B1', 'MAC');
-	$active_sheet->setCellValue('C1', 'Host');
-	$active_sheet->setCellValue('D1', 'Puerto Local');
-	$active_sheet->setCellValue('E1', 'Puerto Remoto');
-	$active_sheet->setCellValue('F1', 'Protocolo');
-    $active_sheet->setCellValue('G1', 'OUI');
-    $active_sheet->setCellValue('H1', 'Tamaño de Paquete');
-	$active_sheet->setCellValue('I1', 'Marca');
-	$active_sheet->setCellValue('J1', 'Fecha');
+	$active_sheet->setCellValue('A1', 'MAC');
+	$active_sheet->setCellValue('B1', 'Marca');
+	$active_sheet->setCellValue('C1', 'OUI');
+	$active_sheet->setCellValue('D1', 'Fecha');
+	$active_sheet->setCellValue('E1', 'ARP');
+	$active_sheet->setCellValue('F1', 'ARP46');
+    $active_sheet->setCellValue('G1', 'Broadcast');
+    $active_sheet->setCellValue('H1', 'ICPM');
+	$active_sheet->setCellValue('I1', 'ICPM6');
+	$active_sheet->setCellValue('J1', 'IPV6');
+    $active_sheet->setCellValue('K1', 'Multicast');
+	$active_sheet->setCellValue('L1', 'Resto');
+	$active_sheet->setCellValue('M1', 'Nº de Paquetes');
+    $active_sheet->setCellValue('N1', 'Wrong IP');
+    $active_sheet->setCellValue('O1', 'SSDP');
+	$active_sheet->setCellValue('P1', 'TCP');
+	$active_sheet->setCellValue('Q1', 'Tráfico');
+    $active_sheet->setCellValue('R1', 'UDP');
+	$active_sheet->setCellValue('S1', 'Unicast');
 
-    for ($i = 65; $i < 75; $i++) // Bucle de la A a la J(ASCII).
+    for ($i = 65; $i < 84; $i++) // Bucle de la A a la S(ASCII).
     {
         $active_sheet->getStyle(chr($i) . 1)->getAlignment()->setHorizontal("center"); // Centra en Texto de Todos Los Títulos.
     }
@@ -34,29 +43,13 @@ if(isset($_POST["export"])) // Viene del Mismo Script.
 	$count = 2;
 	$total = 0;
 
-    for ($i = 0; $i < count($data); $i+=10)
+    for ($i = 0; $i < count($data); $i++)
     {
-        $active_sheet->setCellValue('A' . $count, $data[$i]);
-        $active_sheet->getStyle('A' . $count)->getAlignment()->setHorizontal("center");
-        $active_sheet->setCellValue('B' . $count, $data[$i + 1]);
-        $active_sheet->getStyle('B' . $count)->getAlignment()->setHorizontal("center");
-        $active_sheet->setCellValue('C' . $count, $data[$i + 2]);
-        $active_sheet->getStyle('C' . $count)->getAlignment()->setHorizontal("left"); // Alineación del texto con la cadena 'left', Alinea a la Izquierda.
-        $active_sheet->setCellValue('D' . $count, $data[$i + 3]);
-        $active_sheet->getStyle('D' . $count)->getAlignment()->setHorizontal("right"); // Alineación del texto con la cadena 'right', Alinea a la Derecha.
-        $active_sheet->setCellValue('E' . $count, $data[$i + 4]);
-        $active_sheet->getStyle('E' . $count)->getAlignment()->setHorizontal("right");
-        $active_sheet->setCellValue('F' . $count, $data[$i + 5]);
-        $active_sheet->getStyle('F' . $count)->getAlignment()->setHorizontal("center"); // Alineación del texto con la cadena 'center', Alinea al Centro.
-        $active_sheet->setCellValue('G' . $count, $data[$i + 6]);
-        $active_sheet->getStyle('G' . $count)->getAlignment()->setHorizontal("center");
-        $active_sheet->setCellValue('H' . $count, $data[$i + 8]);
-        $active_sheet->getStyle('H' . $count)->getAlignment()->setHorizontal("right");
-        $active_sheet->setCellValue('I' . $count, "\t" . $data[$i + 9]);
-        $active_sheet->getStyle('I' . $count)->getAlignment()->setHorizontal("left");
-        $active_sheet->setCellValue('J' . $count, $data[$i + 7]);
-        $active_sheet->getStyle('J' . $count)->getAlignment()->setHorizontal("center");
-
+        for ($j = 0; $j < count($data[$i]); $j++)
+        {
+            $active_sheet->setCellValue(chr(65 + $j) . $count, $data[$i][$j]);
+            $active_sheet->getStyle(chr(65 + $j) . $count)->getAlignment()->setHorizontal("center");
+        }
         $count++;
     }
     $active_sheet->setCellValue('G' . ($count + 2), "Total Tamaño de Todos los Paquetes:");
@@ -121,26 +114,33 @@ include "includes/header.php";
                         </div>
                         <div class="col-md-2">
                         <form method="post">
-                            <?php foreach ($data as $val) : ?>
-                            <input type="hidden" name="data[]" value="<?= $val ?>">
-                            <?php endforeach ?>
+                            <input type="hidden" name="data" value="<?php echo htmlspecialchars(json_encode($data)); ?>">
                             <select name="file_type" class="form-control input-sm">
                                 <option value="Xlsx">Xlsx</option>
                                 <option value="Csv">Csv</option>
                             </select>
-                            </div>
-                            <div class="col-md-3">
-                                <input type="submit" name="export" class="btn btn-primary btn-lg" value="Descarga el Informe" />
-                            </div>
                         </div>
-                        </form>
+                        <div class="col-md-3">
+                            <input type="submit" name="export" class="btn btn-primary btn-lg" value="Descarga el Informe" />
+                        </div>
+                    </div>
+                    </form>
                     <br><br>
                     <table>
                         <tr class='text-center'>
-                            <th>IP</th>
                             <th>MAC</th>
-                            <th>Host</th>
-                            <th>Puerto Local</th>
+                            <th>Marca</th>
+                            <th>OUI</th>
+                            <th>Fecha</th>
+                            <th>Puerto Remoto</th>
+                            <th>Protocolo</th>
+                            <th>OUI</th>
+                            <th>Tamaño del Paquete</th>
+                            <th>Marca</th>
+                            <th>Fecha</th>
+                            <th>Marca</th>
+                            <th>OUI</th>
+                            <th>Fecha</th>
                             <th>Puerto Remoto</th>
                             <th>Protocolo</th>
                             <th>OUI</th>
@@ -149,19 +149,14 @@ include "includes/header.php";
                             <th>Fecha</th>
                         </tr>
                     <?php
-                    for ($i = 0; $i < count($data); $i+=10)
+                    for ($i = 0; $i < count($data); $i++)
                     {
-                        echo '<tr><td style="text-align: center; width: 70px;">' . $data[$i] . '</td>
-                        <td style="text-align: center; width: 100px;">' . $data[$i + 1] . '</td>
-                        <td style="width: 180px;">' . $data[$i + 2] . '</td>
-                        <td style="text-align: right; width: 40px;">' . $data[$i + 3] . '</td>
-                        <td style="text-align: right; width: 40px;">' . $data[$i + 4] . '</td>
-                        <td style="text-align: center; width: 80px;">' . $data[$i + 5] . '</td>
-                        <td style="text-align: center; width: 80px;">' . $data[$i + 6] . '</td>
-                        <td style="text-align: right; width: 100px;">' . $data[$i + 8] . '</td>
-                        <td style="text-align: left; width: 100px;">' . $data[$i + 9] . '</td>
-                        <td style="text-align: center; width: 100px;">' . $data[$i + 7] . '</td>
-                        </tr>';
+                        echo '<tr>';
+                        for ($j = 0; $j < count($data[0]); $j++)
+                        {
+                            echo '<td style="text-align: center; width: 70px;">' . $data[$i][$j] . '</td>';
+                        }
+                        echo '</tr>';
                     }
                     ?>
                     </table>

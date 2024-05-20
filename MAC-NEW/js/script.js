@@ -1,6 +1,6 @@
 function totNumPages() // Función para la paginación
 {
-    return Math.ceil(window.length / window.qtty); // Calcula la cantidad de páginas que habrá, divide la cantidad de datos por 5 resultados a mostrar por página.
+    return Math.ceil(window.vlength / window.qtty); // Calcula la cantidad de páginas que habrá, divide la cantidad de datos por 5 resultados a mostrar por página.
 }
 
 function prev() // Función para ir a la página anterior.
@@ -29,28 +29,23 @@ function change(page, qtty) // Función que muestra los resultados de a 5 en la 
         window.qtty = qtty; // Asigno la variable qtty, a la variable global window.qtty.
         const array_length = array_value.length;
         const data_length = array_value[0].length;
-        // const tags = array_key.length - 1; // Cantidad de Datos en Cada Tupla de Valores.
-        // var length = array_value.length / (tags + 1); // Obtengo en length el Tamaño de Cada Tupla en el Array de Valores.
-        window.length = array_length; // Hago global la variable length.
+        window.vlength = array_length; // Hago global la variable length.
+        window.hlength = data_length;
 
-        var html = "<table><tr class='text-center'><th>MAC</th><th>Marca</th><th>OUI</th><th>Fecha</th><th>Nº Paquetes</th><th>Unicast</th><th>Multicast</th><th>Broadcast</th><th>ARP</th><th>Trafico</th><th>ICMP</th><th>UDP</th><th>TCP</th><th>Resto</th><th>IPV6</th><th>ARP46</th><th>Otro</th><th>SSDP</th><th>ICMP6</th></tr>";
-        console.log(array_value);
-        // for (i = (page - 1) * qtty; i < page * qtty; i++) // Aquí hago el bucle desde la página donde esté, a la cantidad de resultados a mostrar.
+        var html = "<table><tr class='text-center'><th>MAC</th><th>Marca</th><th>OUI</th><th>Fecha</th><th>ARP</th><th>ARP46</th><th>Bad IP</th><th>Broadcast</th><th>ICMP</th><th>ICPM6</th><th>IPV6</th><th>Multicast</th><th>Nº de Paquetes</th><th>Resto</th><th>Trafico</th><th>UDP</th><th>SSDP</th><th>TCP</th><th>Unicast</th></tr>";
         for (i = 0 + qtty * (page - 1); i < array_length && i < qtty * page; i++)
         {
             html += "<tr>";
             for (j = 0; j < data_length; j++)
             {
-
-                    // html += "<tr><td>" + array_value[i + (tags * i)] + "</td><td>" + array_value[i + 1 + (tags * i)] + "</td><td>" + array_value[i + 2 + (tags * i)] + "</td><td>" + array_value[i + 3 + (tags * i)] + "</td><td>" + array_value[i + 4 + (tags * i)] + "</td><td>" + array_value[i + 5 + (tags * i)] + "</td><td>" + array_value[i + 6 + (tags * i)] + "</td><td>" + array_value[i + 7 + (tags * i)] + "</td><td>" + array_value[i + 8 + (tags * i)] + "</td><td>" + array_value[i + 9 + (tags * i)] + "</td><td>" + array_value[i + 10 + (tags * i)] + "</td><td>" + array_value[i + 11 + (tags * i)] + "</td><td>" + array_value[i + 12 + (tags * i)] + "</td><td>" + array_value[i + 13 + (tags * i)] + "</td><td>" + array_value[i + 14 + (tags * i)] + "</td><td>" + array_value[i + 15 + (tags * i)] + "</td><td>" + array_value[i + 16 + (tags * i)] + "</td><td>" + array_value[i + 17 + (tags * i)] + "</td><td>" + array_value[i + 18 + (tags * i)] + "</td></tr>";
-                    html += "<td>" + array_value[i][j] + "</td>";
+                html += "<td>" + array_value[i][j] + "</td>";
             }
             html += "</tr>";
         }
         html += "</tr></table>";
         table.innerHTML = html; // Muestro todo en pantalla.
 
-        if (length > 8) // Si la cantidad de Artículos es mayor que 5.
+        if (vlength > 8) // Si la cantidad de Artículos es mayor que 5.
         {
             pages.innerHTML = "Página: " + page; // Muestro el número de página.
             if (page == 1) // Si la página es la número 1
@@ -73,23 +68,28 @@ function change(page, qtty) // Función que muestra los resultados de a 5 en la 
     }
 }
 
-function addColon()
-{
-    mac.addEventListener("keydown", (e) => {
-        if (e.keyCode != 8)
-        {
-            switch(mac.value.length)
-            {
-                case 2:
-                case 5:
-                case 8:
-                case 11:
-                case 14:
-                    mac.value += ":";
-                    break;
-            }
-        }
-    });
+// function addColon()
+// {
+//     mac.addEventListener("keydown", (e) => {
+//         if (e.keyCode != 8)
+//         {
+//             switch(mac.value.length)
+//             {
+//                 case 2:
+//                 case 5:
+//                 case 8:
+//                 case 11:
+//                 case 14:
+//                     mac.value += ":";
+//                     break;
+//             }
+//         }
+//     });
+// }
+
+function makeData(data)
+{    
+    window.array_value = data;
 }
 
 function drawBars() // Gráfica de Barras.
@@ -104,25 +104,25 @@ function drawBars() // Gráfica de Barras.
         let my_date = new Date(each[0], each[1], each[2]);
         values[i][0] = my_date;
     }
-    
+
     var options = {
         title: 'Ataques Totales',
-        'height':480,
-        colors: ['#ff0000'],
+        height: 480,
+        colors: ['#0000ff', '#808080', '#808080', '#808080', '#808080', '#808080', '#808080', '#808080', '#00ff00', '#808080', '#808080', '#ff0000', '#808080', '#800080', '#ff00ff', '#ffff00'],
         bar: {
-            groupWidth: "80%"
+            groupWidth: "50%"
         },
         hAxis: {
             title: 'Ataques de Mayor a Menor, Por Cantidad, Tamaño de Paquete y por Fecha',
             format: 'd MMM YYYY',
-            gridlines: {count: 7},
+            gridlines: {count: 6},
             viewWindow: {
-                min: new Date(Date.now() - (7 * 24 * 60 * 60 * 1000)),
+                min: new Date(Date.now() - (2 * 24 * 60 * 60 * 1000)),
                 max: new Date()
             },
         },
         vAxis: {
-            title: 'Rating (Escala 1:1000)'
+            title: 'Rating (Escala 1:1)'
         },
         tooltip: {isHtml: true}
     };
@@ -133,66 +133,23 @@ function drawBars() // Gráfica de Barras.
     chart.draw(data, options);
 }
 
-function drawDonut() // Gráfica de Anillo.
-{
-    let values = [];
-    values = getValues();
-
-    if (values[0][0] != "No Data")
-    {
-        var options = {
-            title: 'Ataques Totales',
-            pieHole: 0.4,
-            slices: {}
-        };
-        
-        var color = 0; // Para los Colores Verde y Azul.
-
-        for (i = 1; i < values.length; i++)
-        {
-            options.slices[i - 1] = {color: "rgb(255, " + color + ", " + color + ")"}; // Da color Rojo puro al primer valor.
-            if (i < values.length - 1 && values[i][1] != values[i + 1][1]) // Si el Índice del Array es Menor que el Tamaño del Array - 1 y el Primer Valor es Distinto del Segundo.
-                color += Math.trunc(256 / values.length); // Incrementa el Valor de Color, Hace el Color Más Claro.
-        }
-
-        var data = google.visualization.arrayToDataTable(values);
-        // var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        var chart = new google.visualization.PieChart(donutchart);
-        chart.draw(data, options);
-    }
-    else
-    {
-        donutchart.innerHTML = "<h1>No Hay Datos</h1>";
-    }
-}
-
 function getValues()
 {
-    
     let values = [];
-    let data = [];
 
-    if (length > 0)
+    if (vlength > 0)
     {
-        for(i = 0; i < length; i++) // Acá Uso el Length Global, Para Poner los Datos del Array array_value de JavaScript en un Array Asociativo Llamado data.
-        {
-            data.push({date: array_value[i + 7 + (i * 9)], length: parseInt(array_value[i + 8 + (i * 9)]), mac_ip: array_value[i + 1 + (i * 9)].toUpperCase()});
-        }
-
-        data.sort(function (a, b)
-        {
-            return b.length - a.length;
-        });
-
-        values.push(['Fecha', 'Tamaño del Paquete', {role: 'style'}, {role: "tooltip", 'p': {'html': true}}]); // , 'Cantidad de Ataques']);
+        values.push(['Fecha', 'ARP', {role: "style"}, 'ARP46', 'Bad IP', 'Broadcast', 'ICPM', 'ICPM6', 'IPV6', 'Multicast', 'Nº Paquetes', {role: "style"}, 'Resto', 'SSDP', 'TCP', {role: "style"}, 'Trafico', 'UDP', {role: "style"}, 'Unicast', {role: "style"}, "MAC - Owner - Time", {role: "tooltip", 'p': {'html': true}}]);
 
         var color = 0;
 
-        for (i = 0; i < data.length; i++)
+        for (i = 0; i < vlength; i++)
         {
-            values[i + 1] = [data[i].date, data[i].length, 'color: ' + "rgb(255, " + color + ", " + color + ")", "<div class='toolbox'><strong>MAC: </strong>" + data[i].mac_ip  + "<br>" + "<strong>Tamaño: </strong>" + data[i].length / 1000 + " KBytes</div>"]; // , data[i].amount];
-            if (i < data.length - 1 && data[i].length != data[i + 1].length)
-                color+=Math.trunc(256 / data.length);
+            values[i + 1] = [array_value[i][3], array_value[i][4], 'color: ' + "rgb(" + color + ", " + color + ", 255)", array_value[i][5], array_value[i][6], array_value[i][7], array_value[i][8], array_value[i][9], array_value[i][10], array_value[i][11], array_value[i][12], 'color: ' + "rgb(" + color +  ", 255, " + color + ")", array_value[i][13], array_value[i][14], array_value[i][17], 'color: ' + "rgb(255, " + color + ", " + color + ")", array_value[i][16], array_value[i][15], 'color: ' + "rgb(80, " + color + ", 80)", array_value[i][18], 'color: ' + "rgb(255, " + color + ", 255)", array_value[i][18], "<div class='toolbox'><strong>MAC: </strong>" + array_value[i][0] + "<br><strong>Marca: </strong>" + array_value[i][1] + "<br><strong>Fecha: </strong>" + array_value[i][3] + "</div>"];
+            if (i < vlength - 1 && array_value[i][15] != array_value[i + 1][15])
+            {
+                color+=Math.trunc(256 / vlength);
+            }
         }
     }
     else

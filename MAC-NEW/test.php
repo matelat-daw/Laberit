@@ -1,7 +1,12 @@
 <?php
 // exec('rustscan -a 192.168.0.36 > data.txt');
 
-exec('nmap 192.168.0.87 > data2.txt');
+// exec('nmap 192.168.0.87 > data2.txt');
+
+echo '<script>
+let date = new Date("Fri May 17 2024 00:00:00 GMT+0100 (hora de verano de Europa occidental)").toLocaleString( "sv", { timeZoneName: "short" } );
+console.log(date);
+</script>';
 
 // system ('nmap -T4 -F 192.168.0.36', $result);
 

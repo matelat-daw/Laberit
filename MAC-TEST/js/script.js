@@ -96,6 +96,7 @@ function drawBars() // Gráfica de Barras.
         each[1]--; // Reduce en 1 el Mes ya que los Meses en Javascript Van de 0 a 11.
         let my_date = new Date(each[0], each[1], each[2]);
         values[i][0] = my_date;
+        console.log(my_date);
     }
     
     var options = {
