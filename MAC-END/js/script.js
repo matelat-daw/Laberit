@@ -103,8 +103,8 @@ function drawBars() // Gráfica de Barras.
                 format: 'd MMM YYYY HH:mm:ss', // Muestra la Fecha Anglo y la Hora Latin. 1 Jan 1970 13:00:00
                 gridlines: {count: 4},
                 viewWindow: {
-                    min: new Date(values[length - 1][0] - 3 * 24 * 60 * 60 * 1000),
-                    max: new Date(values[length - 1][0] - (2 * -60 * 60 * 1000))
+                    min: new Date(values[length - 1][0] - 24 * 60 * 60 * 1000),
+                    max: new Date(values[length - 1][0] - (-24 * 60 * 60 * 1000))
                 },
             },
             vAxis: {

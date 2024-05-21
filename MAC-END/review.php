@@ -22,6 +22,7 @@ if (isset($_POST["sended"])) // Recibe la IP y los Demás Datos desde el script 
     $line = [];
     $data = [];
     $tmp = [];
+    $mac = "";
     $i = 0;
     $datos = fopen($path, "r") or die("Unable to open file!");
     while(!feof($datos))
@@ -35,10 +36,14 @@ if (isset($_POST["sended"])) // Recibe la IP y los Demás Datos desde el script 
         }
         else
         {
-            $line[0] = "";
-            $tmp[0] = explode(";", $line[$i]);
-            for ($j = 1; $j < count($tmp[0]); $j++)
-                $data[0][$j] += $tmp[0][$j];
+            $mac = explode(";", $line[$i]);
+            $mac[0] = implode(':', str_split($mac[0], 2));
+            if ($mac[0] == $data[0][0])
+            {
+                $tmp[0] = explode(";", $line[$i]);
+                for ($j = 1; $j < count($tmp[0]); $j++)
+                    $data[0][$j] += $tmp[0][$j];
+            }
         }
         $i++;
     }
