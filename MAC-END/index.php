@@ -45,7 +45,7 @@ include "includes/nav_index.html";
                         $data = [];
                         $time = array_column($records, 'time'); // Obtengo la KEY time del Array $records.
 
-                        array_multisort($time, SORT_DESC, $records); // Ordena el Array $records por la Columna time, en Orden Descendiente.
+                        array_multisort($time, SORT_ASC, $records); // Ordena el Array $records por la Columna time, en Orden Descendiente.
 
                         $i = 0; // Índice de Todos los Datos de Todas las Tuplas.
                         $pos = 0;
@@ -63,31 +63,7 @@ include "includes/nav_index.html";
                             $pos++;
                         }
 
-                        $array_value = [];
-
-                        for ($y = 0; $y < count($data) / 18; $y++)
-                        {
-                            $array_value[$y] = [];
-                            for ($i = 0; $i < count($data); $i++)
-                            {
-                                for ($j = 0; $j < count($data[0]); $j++)
-                                {
-                                    if (count($array_value[0]) < count($data[0]))
-                                    {
-                                        $array_value[$y][$j] = $data[$i][$j];
-                                    }
-                                    else
-                                    {
-                                        if ($j > 3)
-                                        {
-                                            $array_value[$y][$j] += $data[$i][$j];
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        echo "<script>let array_value = " . json_encode($array_value) . ";
+                        echo "<script>let array_value = " . json_encode($data) . ";
                                     makeData(array_value);</script>";
                     }   
                     else // Si No Hay Datos.
@@ -112,9 +88,6 @@ include "includes/nav_index.html";
                     <script>google.charts.load('current', {packages: ['corechart', 'bar']});
                         google.charts.setOnLoadCallback(drawBars);</script>
 
-                    <!-- <div id="donutchart" style="width: 960px; height: 500px;"></div>
-                    <script>google.charts.load("current", {packages:["corechart"]});
-                        google.charts.setOnLoadCallback(drawDonut);</script> -->
                     <br><br><br>
                 </div>
                 <div id="view4">

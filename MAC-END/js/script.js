@@ -132,7 +132,7 @@ function getValues()
     {
         values.push(['Fecha', 'ARP', 'ARP46', 'Bad IP', 'Broadcast', 'ICPM', 'ICPM6', 'IPV6', 'Multicast', 'Nº Paquetes', 'Resto', 'SSDP', 'TCP', 'Trafico', 'UDP', 'Unicast', "MAC - Owner - Time", {role: "tooltip", 'p': {'html': true}}]);
 
-        for (i = 0; i < array_value.length; i+=18)
+        for (i = 0; i < array_value.length; i++)
         {
             values.push([array_value[i][3], array_value[i][4], array_value[i][5], array_value[i][6], array_value[i][7], array_value[i][8], array_value[i][9], array_value[i][10], array_value[i][11], array_value[i][12], array_value[i][13], array_value[i][14], array_value[i][15], array_value[i][16], array_value[i][17], array_value[i][18], array_value[i][18], "<div class='toolbox'><strong>MAC: </strong>" + array_value[i][0] + "<br><strong>Marca: </strong>" + array_value[i][1] + "<br><strong>Fecha: </strong>" + array_value[i][3] + "</div>"]);
         }
