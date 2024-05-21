@@ -1,0 +1,77 @@
+User: laberit
+Pass: laberit1234
+
+Org: laberit
+Bucket: SAIDI_DATA
+
+Token: h7ehkw6Bvt_zIrTP9C73N_2Z_O2g2H4DjvpN_wBV3sXlKLWNhne0c97r34ikHX2inFjxT54KcYh_pFwkS0J44Q==
+
+
+Query Data From InfluxDB:
+
+influx query "from(bucket: \"SAIDI_DATA\") |> range(start: -7d) |> filter(fn: (r) => r._measurement == \"intruder\")"
+
+
+influx query "csv.from(bucket: \"SAIDI_DATA\") |> range(start: -7d) |> filter(fn: (r) => r._measurement == \"intruder\") |> yield()"
+
+
+curl --get http://localhost:8086/query --header "Authorization: Token h7ehkw6Bvt_zIrTP9C73N_2Z_O2g2H4DjvpN_wBV3sXlKLWNhne0c97r34ikHX2inFjxT54KcYh_pFwkS0J44Q==" --header "Accept: application/csv" --data-urlencode "db=SAIDI_DATA" --data-urlencode "q=SELECT * FROM intruder"
+
+curl http://localhost:8086/query --header "Authorization: Token h7ehkw6Bvt_zIrTP9C73N_2Z_O2g2H4DjvpN_wBV3sXlKLWNhne0c97r34ikHX2inFjxT54KcYh_pFwkS0J44Q==" --header "Accept: application/csv" --data-urlencode "db=SAIDI_DATA" --data-urlencode "q=SELECT * FROM intruder"
+
+
+
+Write Data to InfluxDB:
+
+
+influx write -b SAIDI_DATA -f insert.csv
+
+
+
+Delete Data From Influx:
+
+
+influx delete --bucket Bucket_Name --start '2024-01-01T00:00:00Z' --stop $('2024-05-14T09:00:00Z') --predicate '_measurement="Measurement_Name"'
+
+
+influx delete --bucket SAIDI_DATA --start 2024-03-01T00:00:00Z --stop 2024-05-14T09:00:00Z
+
+
+Export the Data Base From InfluxDB:
+
+influx backup --bucket saidi_data data // Exporta La Base de Datos Comprimida al Directorio data.
+
+influx restore --full data // Recupera la Base de Datos desde el Directorio data.
+
+
+Export a Measurement:
+
+
+curl -X POST http://localhost:8086/query --header "Authorization: Token h7ehkw6Bvt_zIrTP9C73N_2Z_O2g2H4DjvpN_wBV3sXlKLWNhne0c97r34ikHX2inFjxT54KcYh_pFwkS0J44Q==" --header "Accept: application/csv" --data-urlencode "db=SAIDI_DATA" --data-urlencode "q=SELECT * FROM intruder" -fo data.csv
+
+Este comando CURL exporta los datos del measurement intruder del bucket SAIDI_DATA a un fichero CSV llamado data.csv
+
+
+
+Import Data in CSV to InfluxDB:
+
+influx write --bucket SAIDI_DATA --format=csv --file C:/Tools/InfluxDB/Data/data.csv // Escribe los Datos del CSV a InfluxDB.
+
+Datos de Una Incidencia en SAIDI:
+
+1º:	MAC del dispositivo anómalo
+2º:	Nº de paquetes detectados por esta MAC
+3º:	Nº de conexiones por Unicast
+4º:	Nº de conexiones por Multicast
+5º:	Nº de conexiones por Broadcast
+6º:	Nº de paquetes por protocolo ARP
+7º:	Tráfico ARP entre dos IPs activas dentro de la red definida
+8º:	Nº de paquetes por protocolo IPv4 > ICMP
+9º:	Nº de paquetes por protocolo IPv4 > UDP
+10º:	Nº de paquetes por protocolo IPv4 > TCP
+11º:	Nº de paquetes por protocolo IPv4 > resto
+12º:	Nº de paquetes por protocolo IPv6
+13º:	Nº de paquetes por protocolo !(ARP, IPv4, IPv6)
+14º:	Ha preguntado por una IP no contemplada por ARP -------------------------???
+15º:	Nº de paquetes por protocolo IPv4 > UDP > SSDP
+16º:	Nº de paquetes por protocolo IPv6 > ICMPv6
