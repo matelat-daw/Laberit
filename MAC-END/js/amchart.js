@@ -87,9 +87,10 @@ xRenderer.grid.template.setAll({
 xAxis.data.setAll(data);
 
 var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-  min: 0.1,
-  logarithmic: true,
-  treatZeroAs: 0.01,
+  min: 1,
+  logarithmic: false,
+  // treatZeroAs: 0.01,
+  //baseValue: 50,
   renderer: am5xy.AxisRendererY.new(root, {
     strokeOpacity: 0.1
   })
@@ -144,7 +145,7 @@ function makeSeries(name, fieldName) {
 makeSeries("Nº de Paquetes", "nPaquete");
 makeSeries("Unicast", "unicast");
 makeSeries("Multicast", "multicast");
-makeSeries("Braodcast", "broadcast");
+makeSeries("Broadcast", "broadcast");
 makeSeries("ARP", "arp");
 makeSeries("Aaaa", "aaaa");
 makeSeries("ICMP", "icmp");
@@ -166,6 +167,17 @@ chart.appear(1000, 100);
 function getData()
 {
     let data = [];
+
+    for (i = 0; i < array_value.length; i++)
+    {
+        for (j = 0; j < array_value[0].length; j++)
+        {
+            if (array_value[i][j] == 0)
+            {
+                array_value[i][j] = null;
+            }
+        } 
+    }
 
     if (typeof array_value != "undefined" && array_value.length > 0)
     {
