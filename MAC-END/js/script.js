@@ -73,79 +73,96 @@ function makeData(data)
     window.array_value = data;
 }
 
-function drawBars() // Gráfica de Barras.
-{
-    let values = [];
-    values = getValues(); // Llama a la función que obtiene los valores de InfluxDB.
-    let length = values.length;
+// function drawBars() // Gráfica de Barras.
+// {
+//     let values = [];
+//     values = getValues(); // Llama a la función que obtiene los valores de InfluxDB.
+//     let length = values.length;
 
-    if (values[0][0] != "No Data")
-    {
-        var date = values[length - 1][0].substr(0, 19); // Corta los 19 Primeros Caracteres de la Cadena con Formato de Fecha ISO 8601 Date and Time.(2024-05-09T15:14:33Z).
+//     if (values[0][0] != "No Data")
+//     {
+//         for(i = 1; i < length; i++) {
+//             var date = values[i][0].substr(0, 19); // Corta los 19 Primeros Caracteres de la Cadena con Formato de Fecha ISO 8601 Date and Time.(2024-05-09T15:14:33Z).
+            
+//             let each = date.split("-"); // Recuperamos los Meses.
+//             let time = each[2].split("T"); // Partimos el Último Dato por la T.
+//             each[2] = time[0]; // Es el Día, lo Asignamos a each[2].
+//             time = time[1].split(":"); // Partimos la hora por los :.
+//             each[1]--; // Reduce en 1 el Mes ya que los Meses en Javascript Van de 0 a 11.
+//             let my_date = new Date(each[0], each[1], each[2], time[0], time[1], time[2]); // Reconstruimos la Fecha en Formato GMT.
         
-        let each = date.split("-"); // Recuperamos los Meses.
-        let time = each[2].split("T"); // Partimos el Último Dato por la T.
-        each[2] = time[0]; // Es el Día, lo Asignamos a each[2].
-        time = time[1].split(":"); // Partimos la hora por los :.
-        each[1]--; // Reduce en 1 el Mes ya que los Meses en Javascript Van de 0 a 11.
-        let my_date = new Date(each[0], each[1], each[2], time[0], time[1], time[2]); // Reconstruimos la Fecha en Formato GMT.
-        values[length - 1][0] = my_date; // Asignamos al Primer Valor de Tiempo del Array values la Fecha.
+//             values[i][0] = my_date; // Asignamos al Primer Valor de Tiempo del Array values la Fecha.
+//         }
+        
 
-        var options = {
-            title: 'Ataques Totales',
-            height: 480,
-            colors: ['#0000ff', '#808080', '#808080', '#808080', '#808080', '#808080', '#808080', '#808080', '#00ff00', '#808080', '#808080', '#ff0000', '#808080', '#800080', '#ff00ff', '#ffff00'],
-            bar: {
-                groupWidth: "10%"
-            },
-            hAxis: {
-                title: 'Ataques de Mayor a Menor, Por Cantidad, Tamaño de Paquete y por Fecha',
-                format: 'd MMM YYYY HH:mm:ss', // Muestra la Fecha Anglo y la Hora Latin. 1 Jan 1970 13:00:00
-                gridlines: {count: 4},
-                viewWindow: {
-                    min: new Date(values[length - 1][0] - 24 * 60 * 60 * 1000),
-                    max: new Date(values[length - 1][0] - (-24 * 60 * 60 * 1000))
-                },
-            },
-            vAxis: {
-                title: 'Rating (Escala 1:1)'
-            },
-            tooltip: {isHtml: true}
-        };
+//         var options = {
+//             title: 'Ataques Totales',
+//             height: 480,
+//             //colors:['#0000ff', '#808080', '#808080', '#808080', '#808080', '#808080', '#808080', '#808080', '#00ff00', '#808080', '#808080', '#ff0000', '#808080', '#800080', '#ff00ff', '#ffff00'],
+//             bar: {
+//                 groupWidth: "100%"
+//             },
+//             hAxis: {
+//                 title: 'Ataques de Mayor a Menor, Por Cantidad, Tamaño de Paquete y por Fecha',
+//                 format: 'd MMM YYYY HH:mm:ss', // Muestra la Fecha Anglo y la Hora Latin. 1 Jan 1970 13:00:00
+//                 gridlines: {count: 40},
+//                 viewWindow: {
+//                     min: new Date(values[1][0] - 0.1*24 * 60 * 60 * 1000),
+//                     max: new Date(values[1][0] - (- 0.3 * 24 * 60 * 60 * 1000))
+//                 },
+//             },
+//             vAxis: {
+//                 scaleType: 'log',
+//                 title: 'Rating (Escala 1:1)'
+//             },
+//             tooltip: {isHtml: true}
+//         };
 
-        var data = google.visualization.arrayToDataTable(values);
-        // var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-        var chart = new google.visualization.ColumnChart(chart_div);
-        chart.draw(data, options);
-    }
-    else
-    {
-        chart_div.innerHTML = "<h3>No Hay Datos Aun.</h3>";
-    }
-}
+//         var data = google.visualization.arrayToDataTable(values);
+//         // var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+//         var chart = new google.visualization.ColumnChart(chart_div);
+//         chart.draw(data, options);
+//     }
+//     else
+//     {
+//         chart_div.innerHTML = "<h3>No Hay Datos Aun.</h3>";
+//     }
+// }
 
-function getValues()
-{
-    let values = [];
+// function getValues()
+// {
+//     let values = [];
 
-    if (typeof array_value != "undefined" && array_value.length > 0)
-    {
-        values.push(['Fecha', 'ARP', 'ARP46', 'Bad IP', 'Broadcast', 'ICPM', 'ICPM6', 'IPV6', 'Multicast', 'Nº Paquetes', 'Resto', 'SSDP', 'TCP', 'Trafico', 'UDP', 'Unicast', "MAC - Owner - Time", {role: "tooltip", 'p': {'html': true}}]);
+//     if (typeof array_value != "undefined" && array_value.length > 0)
+//     {
+//         values.push(['Fecha', 'ARP', 'ARP46', 'Bad IP', 'Broadcast', 'ICPM', 'ICPM6', 'IPV6', 'Multicast', 'Nº Paquetes', 'Resto', 'SSDP', 'TCP', 'Trafico', 'UDP', 'Unicast', "MAC - Owner - Time", {role: "tooltip", 'p': {'html': true}}]);
 
-        for (i = 0; i < array_value.length; i++)
-        {
-            values.push([array_value[i][3], array_value[i][4], array_value[i][5], array_value[i][6], array_value[i][7], array_value[i][8], array_value[i][9], array_value[i][10], array_value[i][11], array_value[i][12], array_value[i][13], array_value[i][14], array_value[i][15], array_value[i][16], array_value[i][17], array_value[i][18], array_value[i][18], "<div class='toolbox'><strong>MAC: </strong>" + array_value[i][0] + "<br><strong>Marca: </strong>" + array_value[i][1] + "<br><strong>Fecha: </strong>" + array_value[i][3] + "</div>"]);
-        }
-    }
-    else
-    {
-        values.push(['No Data', 'No Hay Datos']); // , 'Cantidad de Ataques']);
+//         for (i = 0; i < array_value.length; i++)
+//         {
+//             values.push([array_value[i][3], array_value[i][4], array_value[i][5], array_value[i][6], array_value[i][7], array_value[i][8], array_value[i][9], array_value[i][10], array_value[i][11], array_value[i][12], array_value[i][13], array_value[i][14], array_value[i][15], array_value[i][16], array_value[i][17], array_value[i][18], array_value[i][18], "<div class='toolbox'><strong>MAC: </strong>" + array_value[i][0] + "<br><strong>Marca: </strong>" + array_value[i][1] + "<br><strong>Fecha: </strong>" + array_value[i][3] + "</div>"]);
+//         }
+//     }
+//     else
+//     {
+//         values.push(['No Data', 'No Hay Datos']); // , 'Cantidad de Ataques']);
 
-        values[1] = ["0", 0];
-    }
+//         values[1] = ["0", 0];
+//     }
 
-    return values;
-}
+//     // if (typeof array_value != "undefined" && array_value.length > 0)
+//     // {
+//     //     for (i = 0; i < array_value.length; i++)
+//     //     {
+//     //         values[i] = [];
+//     //         for (j = 3; j < array_value[0].length; j+=19)
+//     //         {
+//     //             values[i] = {Fecha: array_value[i][j] + "\n" + array_value[i][j - 3], arp: array_value[i][j + 1], arp46: array_value[i][j + 2], boradcat: array_value[i][j +  3]};
+//     //         }
+//     //     }
+//     // }
+
+//     return values;
+// }
 
 function toast(warn, ttl, msg) // Función para mostrar el Diálogo con los mensajes de alerta, recibe, Código, Título y Mensaje.
 {

@@ -84,3 +84,12 @@ span
     white-space: nowrap;
     font-size: 18px;
 }
+
+#chartdiv {
+    width: 100%;
+    height: 500px;
+}
+
+#view3{
+    padding: 40px 0;
+}

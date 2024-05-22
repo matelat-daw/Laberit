@@ -80,15 +80,18 @@ include "includes/nav_index.html";
                     <br><br><br><br>
                 </div>
                 <div id="view3">
-                    <br><br><br><br>
+
                     <h3>Gráfica de Nivel de Ataque de las Conexiones Intrusas.</h3>
-                    <br>
 
-                    <div id="chart_div"></div>
+
+                    <!-- <div id="chart_div"></div>
                     <script>google.charts.load('current', {packages: ['corechart', 'bar']});
-                        google.charts.setOnLoadCallback(drawBars);</script>
+                        google.charts.setOnLoadCallback(drawBars);</script> -->
+    
+                    
+                    <div id="chartdiv"></div>
+                    <script src="js/amchart.js"></script>
 
-                    <br><br><br>
                 </div>
                 <div id="view4">
                     <br><br><br><br><br><br><br>
@@ -113,6 +116,9 @@ include "includes/nav_index.html";
         <div class="col-md-1"></div>
     </div>
 </section>
+
+
+
 <?php
 include "includes/footer.html";
 ?>
