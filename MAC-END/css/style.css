@@ -90,6 +90,7 @@ span
     height: 500px;
 }
 
-#view3{
+#view1, #view2, #view3, #view4
+{
     padding: 80px 0;
 }

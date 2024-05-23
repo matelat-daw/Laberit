@@ -88,9 +88,7 @@ xAxis.data.setAll(data);
 
 var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
   min: 1,
-  logarithmic: false,
-  // treatZeroAs: 0.01,
-  //baseValue: 50,
+  logarithmic: true,
   renderer: am5xy.AxisRendererY.new(root, {
     strokeOpacity: 0.1
   })
@@ -118,9 +116,11 @@ function makeSeries(name, fieldName) {
   }));
 
   series.columns.template.setAll({
-    tooltipText: "{name}, {categoryX}: {valueY}",
+    width: am5.percent(90),
+    tooltipText: "{name}, {categoryX}: [bold]{valueY}",
     tooltipY: am5.percent(10)
   });
+
   series.data.setAll(data);
 
   // Make stuff animate on load
@@ -130,10 +130,11 @@ function makeSeries(name, fieldName) {
   series.bullets.push(function () {
     return am5.Bullet.new(root, {
       sprite: am5.Label.new(root, {
-        text: "{valueY}",
+        text: "[#000][bold]{valueY}",
         fill: root.interfaceColors.get("alternativeText"),
         centerY: am5.p50,
         centerX: am5.p50,
+        rotation: -90,
         populateText: true
       })
     });
@@ -170,7 +171,7 @@ function getData()
 
     for (i = 0; i < array_value.length; i++)
     {
-        for (j = 0; j < array_value[0].length; j++)
+        for (j = 4; j < array_value[0].length; j++)
         {
             if (array_value[i][j] == 0)
             {
@@ -205,6 +206,5 @@ function getData()
             data[i] = obj;
         }
     }
-    console.log(data);
     return data;
 }

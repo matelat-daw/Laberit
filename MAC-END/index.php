@@ -11,7 +11,7 @@ include "includes/nav_index.html";
         <div class="col-md-1" id="mobile"></div>
             <div class="col-md-10">
                 <div id="view1">
-                    <br><br><br><br>
+                    <!-- <br><br><br><br> -->
                     <h1>Verificador de MACS</h1>
                     <br><br>
                     <h3>Agrega el Fichero de Datos al Formulario y Haz Click en el Botón Enviar para Almacenarlos en la Base de Datos</h3>
@@ -22,7 +22,7 @@ include "includes/nav_index.html";
                     </form>
                 </div>
                 <div id="view2">
-                    <br><br><br><br>
+                    <!-- <br><br><br><br> -->
                     <h3>Lista de datos en InfluxDB:</h3>
                     <br><br>
                     <?php
@@ -94,7 +94,7 @@ include "includes/nav_index.html";
 
                 </div>
                 <div id="view4">
-                    <br><br><br><br><br><br><br>
+                    <!-- <br><br><br><br><br><br><br> -->
                     <?php
                         if (isset($data))
                         {
