@@ -1,12 +1,91 @@
-var root = am5.Root.new("chartdiv");
-  
+var index = 0;
+var dato = [];
+var data = [];
+
+dato = [{"year": "2021",
+     "europe": 2.5,
+     "namerica": 2.5,
+     "asia": 2.1,
+     "lamerica": 1,
+     "meast": 0.8,
+     "africa": 0.4,
+     "latitude": 40.00
+    }, {
+        "year": "2022",
+        "europe": 2.6,
+        "namerica": 2.7,
+        "asia": 2.2,
+        "lamerica": 0.5,
+        "meast": 0.4,
+        "africa": 0.3,
+        "latitude": 45.74
+    }, {
+          "year": "2023",
+          "europe": 2.8,
+          "namerica": 2.9,
+          "asia": 2.3,
+          "lamerica": 0.8,
+          "meast": 0.6,
+          "africa": 0.5,
+          "latitude": 42.25
+      }];
+
+function getData(index)
+{
+    values = [];
+
+    values[0] = {
+      "year": dato[index].year,
+      "europe": dato[index].europe,
+      "namerica": dato[index].namerica,
+      "asia": dato[index].asia,
+      "lamerica": dato[index].lamerica,
+      "meast": dato[index].meast,
+      "africa": dato[index].africa,
+      "latidud": dato[index].latitude
+    }
+
+    return values;
+}
+
+function show()
+{
+  let stack = document.getElementById("stack").checked;
+
+  if (stack)
+  {
+      var stacked = true;
+  }
+  else
+  {
+      var stacked = false;
+  }
+  let previ = document.getElementById("previ");
+  let next = document.getElementById("next");
+  if (index > 0)
+  {
+      previ.style.visibility = "visible";
+  }
+  else
+  {
+      previ.style.visibility = "hidden";
+      index = 0;
+  }
+  if (index == dato.length - 1)
+  {
+      next.style.visibility = "hidden"; 
+  }
+  if (index < dato.length - 1)
+  {
+      next.style.visibility = "visible"; 
+  }
+  var root = am5.Root.new("chartdiv");
   
   // Set themes
   // https://www.amcharts.com/docs/v5/concepts/themes/
   root.setThemes([
     am5themes_Animated.new(root)
   ]);
-  
   
   // Create chart
   // https://www.amcharts.com/docs/v5/charts/xy-chart/
@@ -18,7 +97,6 @@ var root = am5.Root.new("chartdiv");
     layout: root.verticalLayout
   }));
   
-  
   // Add legend
   // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
   var legend = chart.children.push(am5.Legend.new(root, {
@@ -26,41 +104,10 @@ var root = am5.Root.new("chartdiv");
     x: am5.p50
   }));
   
-  var data = [{
-    "year": "2021",
-    "europe": 2.5,
-    "namerica": 2.5,
-    "asia": 2.1,
-    "lamerica": 1,
-    "meast": 0.8,
-    "africa": 0.4,
-  "latitude": 40.00
-  }, {
-    "year": "2022",
-    "europe": 2.6,
-    "namerica": 2.7,
-    "asia": 2.2,
-    "lamerica": 0.5,
-    "meast": 0.4,
-    "africa": 0.3,
-    "latitude": 45.74
-  }, {
-    "year": "2023",
-    "europe": 2.8,
-    "namerica": 2.9,
-    "asia": 2.4,
-    "lamerica": 0.3,
-    "meast": 0.9,
-    "africa": 0.5,
-    "latitude": 39.74
-  }];
-  
-  console.log(data);
-  
   // Create axes
   // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
   var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-    categoryField: "lamerica",
+    categoryField: "year",
     renderer: am5xy.AxisRendererX.new(root, {
       cellStartLocation: 0.1,
       cellEndLocation: 0.9
@@ -68,37 +115,31 @@ var root = am5.Root.new("chartdiv");
     tooltip: am5.Tooltip.new(root, {})
   }));
   
-  
+  var logarithmic = false;
+  // var logarithmic = true;
   
   var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
     min: 0.01,
-    logarithmic: true,
+    logarithmic: logarithmic,
     renderer: am5xy.AxisRendererY.new(root, {})
   }));
-  
-
   
   var latitudeAxisRenderer = am5xy.AxisRendererY.new(root, {opposite:true});
 
 var latitudeAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
   syncWithAxis: yAxis, // Synchronize axes to get a more readable grid
   renderer: latitudeAxisRenderer
-
-  
 }));
 
 var latitudeSeries = chart.series.push(am5xy.LineSeries.new(root, {
   xAxis: xAxis,
   yAxis: latitudeAxis,
   valueYField: "latitude",
-  // categoryXField: "year", // Use categoryXField instead of valueXField
-  categoryXField: "lamerica", // Use categoryXField instead of valueXField
+  categoryXField: "year", // Use categoryXField instead of valueXField
   tooltip:am5.Tooltip.new(root, {
     labelText:"latitude: {valueY}"
   })  
 }));
-
-
 
 latitudeSeries.strokes.template.setAll({ strokeWidth: 2 });
 
@@ -121,17 +162,18 @@ latitudeSeries.bullets.push(function() {
   });
 });
 latitudeSeries.data.setAll(data);
+
   // Add series
   // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-  function makeSeries(name, fieldName, stacked) {
+  function makeSeries(name, fieldName) {
     var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-      stacked: true,
+      stacked: stacked,
       name: name,
       xAxis: xAxis,
       yAxis: yAxis,
       valueYField: fieldName,
-      // categoryXField: "year"
-      categoryXField: "lamerica"
+      categoryXField: "year"
+      // categoryXField: "lamerica"
     }));
   
     series.columns.template.setAll({
@@ -142,6 +184,7 @@ latitudeSeries.data.setAll(data);
       opacity: 0.75,
       stroke: "transparent"
     });
+    data = getData(index);
     xAxis.data.setAll(data);
     series.data.setAll(data);
     
@@ -150,30 +193,72 @@ latitudeSeries.data.setAll(data);
     series.appear();
   
     series.bullets.push(function () {
-      return am5.Bullet.new(root, {
-        locationY: 0.5,
-        sprite: am5.Label.new(root, {
-          text: "{valueY}",
-          fill: root.interfaceColors.get("alternativeText"),
-          centerY: am5.percent(50),
-          centerX: am5.percent(50),
-          populateText: true
-        })
-      });
+      // if (stacked)
+      // {
+      //   return am5.Bullet.new(root, {
+      //     locationY: 0.5,
+      //     sprite: am5.Label.new(root, {
+      //       text: "{name}",
+      //       fill: root.interfaceColors.get("alternativeText"),
+      //       centerY: am5.percent(50),
+      //       centerX: am5.percent(50),
+      //       populateText: true
+      //     })
+      //   });
+      // }
+      // else
+      // {
+        return am5.Bullet.new(root, {
+          locationY: 0.5,
+          sprite: am5.Label.new(root, {
+            text: "{valueY}",
+            fill: root.interfaceColors.get("alternativeText"),
+            centerY: am5.percent(50),
+            centerX: am5.percent(50),
+            populateText: true
+          })
+        });
+      // }
     });
   
     legend.data.push(series);
   }
 
-  console.log(legend.data);
+  // console.log(legend.data);
   
-  makeSeries("Europe", "europe", true);
-  makeSeries("North America", "namerica", true);
-  makeSeries("Asia", "asia", true);
-  makeSeries("Latin America", "lamerica", true);
-  makeSeries("Middle East", "meast", true);
-  makeSeries("Africa", "africa", true);
+  makeSeries("Europe", "europe");
+  makeSeries("North America", "namerica");
+  makeSeries("Asia", "asia");
+  makeSeries("Latin America", "lamerica");
+  makeSeries("Middle East", "meast");
+  makeSeries("Africa", "africa");
 
   // Make stuff animate on load
   // https://www.amcharts.com/docs/v5/concepts/animations/
   chart.appear(1000, 100);
+}
+
+function reset(where)
+{
+  const next = document.getElementById("buttons");
+  const bodyElement = document. getElementById("body");
+  const div = document. getElementById("chartdiv");
+  bodyElement. removeChild(div);
+
+  const container = document.createElement("div");
+  container.id = "chartdiv";
+  next.before(container);
+
+  if (where != null)
+  {
+      if (!where)
+      {
+          index--;
+      }
+      else
+      {
+          index++;
+      }
+  }
+  show();
+}

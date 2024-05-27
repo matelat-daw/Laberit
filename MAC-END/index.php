@@ -91,6 +91,10 @@ include "includes/nav_index.html";
                     
                     <div id="chartdiv"></div>
                     <script src="js/amchart.js"></script>
+                    <div id="buttons">
+                        <button id="previ" onclick="reset(false)" style="visibility: hidden;" class="btn btn-info btn-lg">Anterior</button>&#9;&nbsp;&#9;&nbsp;&#9;<button id="next" onclick="reset(true)" class="btn btn-primary btn-lg">Siguiente</button>&#9;&nbsp;&#9;&nbsp;&#9;<label></label><input id="stack" type="checkbox" onchange="reset(null)"> Muestra los Datos Apilados</label>
+                    </div>
+                    <script>show()</script>
 
                 </div>
                 <div id="view4">
