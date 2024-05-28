@@ -1,5 +1,4 @@
 <?php // Conexión con la base de datos en PDO.
-session_start(); // Incluyo el session_start() ya que se usará en casi todos los scripts.
 try // Intenta la conexión
 {
 	$conn = new PDO('mysql:host=localhost;dbname=macs', "root", "");
@@ -11,13 +10,9 @@ catch(PDOException $e) // En caso de error
 }
 
 use InfluxDB2\Client;
-// use InfluxDB2\Model\WritePrecision;
 
 $org = 'laberit';
 $bucket = 'SAIDI_DATA';
-
-// $org = 'Laberit';
-// $bucket = 'MACDB';
 
 $client = new Client([
     "url" => "http://localhost:8086",

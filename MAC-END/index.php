@@ -11,7 +11,7 @@ include "includes/nav_index.html";
         <div class="col-md-1" id="mobile"></div>
             <div class="col-md-10">
                 <div id="view1">
-                    <!-- <br><br><br><br> -->
+                    <!-- Formulario para cargar el fichero con las muestras (Formato CSV). -->
                     <h1>Verificador de MACS</h1>
                     <br><br>
                     <h3>Agrega el Fichero de Datos al Formulario y Haz Click en el Botón Enviar para Almacenarlos en la Base de Datos</h3>
@@ -22,11 +22,11 @@ include "includes/nav_index.html";
                     </form>
                 </div>
                 <div id="view2">
-                    <!-- <br><br><br><br> -->
+                    <!-- Tabla con los datos de las muestras, paginada de a 8 resultados. -->
                     <h3>Lista de datos en InfluxDB:</h3>
                     <br><br>
                     <?php
-                    $query = "from(bucket: \"$bucket\") |> range(start: -7d) |> filter(fn: (r) => r._measurement == \"aintrusa\")"; // Consulta a InfluxDB.
+                    $query = "from(bucket: \"$bucket\") |> range(start: -10d) |> filter(fn: (r) => r._measurement == \"aintrusa\")"; // Consulta a InfluxDB, hasta 10 días antes.
                     $tables = $client->createQueryApi()->query($query, $org); // Ejecuta la Consulta Asignado el Resutlado a la Variable $tables.
                     $records = []; // $records Contendrá todos los Resultados de la Tabla intruder de la Base de Datos MACDB.
                     $i = 0;
@@ -45,7 +45,7 @@ include "includes/nav_index.html";
                         $data = [];
                         $time = array_column($records, 'time'); // Obtengo la KEY time del Array $records.
 
-                        array_multisort($time, SORT_ASC, $records); // Ordena el Array $records por la Columna time, en Orden Descendiente.
+                        array_multisort($time, SORT_DESC, $records); // Ordena el Array $records por la Columna time, en Orden Descendiente.
 
                         $i = 0; // Índice de Todos los Datos de Todas las Tuplas.
                         $pos = 0;
@@ -80,25 +80,17 @@ include "includes/nav_index.html";
                     <br><br><br><br>
                 </div>
                 <div id="view3">
-
+                    <!-- Gráfica de AMCharts V5. -->
                     <h3>Gráfica de Nivel de Ataque de las Conexiones Intrusas.</h3>
-
-
-                    <!-- <div id="chart_div"></div>
-                    <script>google.charts.load('current', {packages: ['corechart', 'bar']});
-                        google.charts.setOnLoadCallback(drawBars);</script> -->
-    
-                    
                     <div id="chartdiv"></div>
-                    <script src="js/amchart.js"></script>
                     <div id="buttons">
-                        <button id="previ" onclick="reset(false)" style="visibility: hidden;" class="btn btn-info btn-lg">Anterior</button>&#9;&nbsp;&#9;&nbsp;&#9;<button id="next" onclick="reset(true)" class="btn btn-primary btn-lg">Siguiente</button>&#9;&nbsp;&#9;&nbsp;&#9;<label></label><input id="stack" type="checkbox" onchange="reset(null)"> Muestra los Datos Apilados</label>
+                        <button id="previ" onclick="reset(false)" style="visibility: hidden;" class="btn btn-info btn-lg">Anterior</button>&#9;&nbsp;&#9;&nbsp;&#9;<button id="next" onclick="reset(true)" class="btn btn-primary btn-lg">Siguiente</button>&#9;&nbsp;&#9;&nbsp;&#9;<label id="stackit"><input id="stack" type="checkbox" onchange="reset(null)"> Muestra los Datos Apilados</label>
                     </div>
                     <script>show()</script>
 
                 </div>
                 <div id="view4">
-                    <!-- <br><br><br><br><br><br><br> -->
+                    <!-- Formulario para Exportar los datos a CSV o XLSX. -->
                     <?php
                         if (isset($data))
                         {

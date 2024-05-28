@@ -23,45 +23,6 @@ td /* A los títulos, filas y columnas de la tabla les doy borde de color azul y
     font-size: 1.3rem;
 }
 
-span
-{
-    background-color: rgba(80,80,80,.5) !important; /* los span tienen el fondo gris intermedio transparente. */
-}
-
-.mysize /* Esta clase es de las imágenes del script showEvents.php que muestra los eventos variados en la página index.php y en la página login.php cuando un especatdor está logueado. */
-{
-    padding: 4px;
-    width: 180px;
-    height: 100px;
-}
-
-.column
-{
-	float: left;
-	padding: 10px;
-}
-
-.left
-{
-	width: 20%;
-}
-
-.middle, .right, .moreright
-{
-	width: 6%;
-}
-
-.total
-{
-	width: 18%;
-}
-
-.row::after
-{
-	content: "";
-	display: table;
-	clear: both;
-}
 
 .red
 {

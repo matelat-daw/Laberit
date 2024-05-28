@@ -1,17 +1,15 @@
 <?php
-require "Influx/autoload.php";
-include 'includes/conn.php';
-require 'Excel/autoload.php';
+require 'Excel/autoload.php'; // Incluy la API para Excel.
 
 if (isset($_POST["data"]) && isset($_POST["index"])) // Viene de index.php
 {
     $data = json_decode($_POST["data"]);
 }
 	
-if(isset($_POST["export"])) // Viene del Mismo Script.
+if(isset($_POST["export"])) // Viene del Propio Script.
 {
     $data = json_decode($_POST["data"]);
-	$file = new PhpOffice\PhpSpreadsheet\Spreadsheet(); // Hay que usarlo así en Wordpress, también funciona en cualquier script de PHP.
+	$file = new PhpOffice\PhpSpreadsheet\Spreadsheet(); // Hay que usarlo así en Wordpress, también funciona en cualquier script de PHP o USE PhpOffice\PhpSpreadsheet\Spreadsheet();.
 
 	$active_sheet = $file->getActiveSheet();
 
@@ -52,20 +50,18 @@ if(isset($_POST["export"])) // Viene del Mismo Script.
         }
         $count++;
     }
-    $active_sheet->setCellValue('G' . ($count + 2), "Total Tamaño de Todos los Paquetes:");
-    $active_sheet->setCellValue('H' . ($count + 2), "=SUM(H2:H" . ($count - 1) . ")");
-    $active_sheet->getStyle('H' . ($count + 2))->getNumberFormat()->setFormatCode('#,0. KB');
+    $active_sheet->setCellValue('L' . ($count + 2), "Total Tamaño de Todos los Paquetes:");
+    $active_sheet->setCellValue('M' . ($count + 2), "=SUM(M2:M" . ($count - 1) . ")");
+    $active_sheet->getStyle('M' . ($count + 2))->getNumberFormat()->setFormatCode('#,0. U');
     $active_sheet->setCellValue('A' . ($count + 4), "Incidencias en la RED de Lãberit");
 
     $active_sheet->getRowDimension(1)->setRowHeight(20); // Cambia el tamaño Vertical de las filas usadas en la planilla.
-    $active_sheet->getColumnDimension(chr(65))->setWidth(15);
-    $active_sheet->getColumnDimension(chr(66))->setWidth(20); // Si es la Letra B le da el tamaño horizontal 20.
-    $active_sheet->getColumnDimension(chr(67))->setWidth(10); // Si es la Letra C le da el tamaño horizontal 10.
-    for ($i = 68; $i < 75; $i++)
+
+    for ($i = 65; $i < 84; $i++)
     {
         if ($i < 71)
         {
-            $active_sheet->getColumnDimension(chr($i))->setWidth(15); // Si es la Letra E le da el tamaño horizontal 15.
+            $active_sheet->getColumnDimension(chr($i))->setWidth(20); // Si es la Letra E le da el tamaño horizontal 15.
         }
         else
         {
@@ -103,7 +99,7 @@ include "includes/header.php";
     <div id="pc"></div>
     <div id="mobile"></div>
         <br>
-        <h3 style="text-align: center;">Exporta las Facturas a Excel o CSV</h3>
+        <h3 style="text-align: center;">Exporta las Incidencias a Excel o CSV</h3>
         <br>
         <div class="row">
             <div class="col-md-1" style="width:3%;"></div>
