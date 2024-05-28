@@ -61,11 +61,11 @@ if(isset($_POST["export"])) // Viene del Propio Script.
     {
         if ($i < 71)
         {
-            $active_sheet->getColumnDimension(chr($i))->setWidth(20); // Si es la Letra E le da el tamaño horizontal 15.
+            $active_sheet->getColumnDimension(chr($i))->setWidth(30); // Hata la Letra G le da el tamaño horizontal 30.
         }
         else
         {
-            $active_sheet->getColumnDimension(chr($i))->setWidth(35); // Si es la Letra E le da el tamaño horizontal 15.
+            $active_sheet->getColumnDimension(chr($i))->setWidth(35); // Si es la Letra F o mayor le da el tamaño horizontal 35.
         }
     }
     $active_sheet->getColumnDimension(chr(75))->setWidth(20);
