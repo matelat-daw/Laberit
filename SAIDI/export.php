@@ -128,21 +128,21 @@ include "includes/header.php";
                             <th>Marca</th>
                             <th>OUI</th>
                             <th>Fecha</th>
-                            <th>Puerto Remoto</th>
-                            <th>Protocolo</th>
-                            <th>OUI</th>
-                            <th>Tamaño del Paquete</th>
-                            <th>Marca</th>
-                            <th>Fecha</th>
-                            <th>Marca</th>
-                            <th>OUI</th>
-                            <th>Fecha</th>
-                            <th>Puerto Remoto</th>
-                            <th>Protocolo</th>
-                            <th>OUI</th>
-                            <th>Tamaño del Paquete</th>
-                            <th>Marca</th>
-                            <th>Fecha</th>
+                            <th>ARP</th>
+                            <th>ARP46</th>
+                            <th>IP de otro Segmento</th>
+                            <th>Broadcast</th>
+                            <th>ICMP</th>
+                            <th>ICPM6</th>
+                            <th>IPV6</th>
+                            <th>Multicast</th>
+                            <th>Nº de Paquetes</th>
+                            <th>Resto</th>
+                            <th>Trafico</th>
+                            <th>TCP</th>
+                            <th>SSDP</th>
+                            <th>UDP</th>
+                            <th>Unicast</th>
                         </tr>
                     <?php
                     for ($i = 0; $i < count($data); $i++)

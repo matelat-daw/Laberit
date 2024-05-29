@@ -13,13 +13,13 @@ include "data.php";
             <div class="col-md-10">
                 <div id="view1">
                     <!-- Formulario para cargar el fichero con las muestras (Formato CSV). -->
-                    <h1>Verificador de MACS</h1>
+                    <h1>Captura de las Métricas de SAIDI en InfluxDB</h1>
                     <br><br>
                     <h3>Selecciona el Fichero de Datos con el Botón Examinar y Haz Click en el Botón Enviar para Almacenarlos en la Base de Datos</h3>
                     <br><br>
                     <form action="review.php" method="post" enctype="multipart/form-data">
                         <label><input id="file" type="file" name="data" required> Carga el Fichero CSV</label>
-                        <input type="submit" name="sended" value="Enviar" class="btn btn-primary btn-lg">
+                        <input type="submit" name="sended" value="Enviar" class="btn btn-danger btn-lg">
                     </form>
                 </div>
                 <div id="view2">
@@ -94,8 +94,8 @@ include "data.php";
                     <div id="table"></div>
                     <br>
                     <span id="pages"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button onclick="prev()" id="prev_btn" class="btn btn-danger" style="visibility: hidden;">Anteriores Resultados</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button onclick="next()" id="next_btn" class="btn btn-primary" style="visibility: hidden;">Siguientes Resultados</button><br>
+                    <button onclick="prev()" id="prev_btn" class="btn btn-secondary" style="visibility: hidden;">Anteriores Resultados</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button onclick="next()" id="next_btn" class="btn btn-danger" style="visibility: hidden;">Siguientes Resultados</button><br>
                     <script>change(1, 8);</script>
                     <br><br><br><br>
                 </div>
@@ -104,7 +104,7 @@ include "data.php";
                     <h3>Gráfica de Nivel de Ataque de las Conexiones Intrusas.</h3>
                     <div id="chartdiv"></div>
                     <div id="buttons">
-                        <button id="previ" onclick="reset(false)" style="visibility: hidden;" class="btn btn-info btn-lg">Anterior</button>&#9;&nbsp;&#9;&nbsp;&#9;<button id="next" onclick="reset(true)" class="btn btn-primary btn-lg">Siguiente</button>&#9;&nbsp;&#9;&nbsp;&#9;<label id="stackit"><input id="stack" type="checkbox" onchange="reset(null)"> Muestra los Datos Apilados</label>
+                        <button id="previ" onclick="reset(false)" style="visibility: hidden;" class="btn btn-danger btn-lg">Anterior</button>&#9;&nbsp;&#9;&nbsp;&#9;<button id="next" onclick="reset(true)" class="btn btn-danger btn-lg">Siguiente</button>&#9;&nbsp;&#9;&nbsp;&#9;<label id="stackit"><input id="stack" type="checkbox" onchange="reset(null)"> Muestra los Datos Apilados</label>
                     </div>
                     <script>show()</script>
 
@@ -121,7 +121,7 @@ include "data.php";
                             <br>
                             <form action="export.php" method="post" target="_blank">
                                 <input type="hidden" name="data" value="' . htmlspecialchars(json_encode($data)) . '">
-                                <input type="submit" name="index" value="Ver Informe" class="btn btn-info btn-lg">
+                                <input type="submit" name="index" value="Ver Informe" class="btn btn-danger btn-lg">
                             </form>';
                         }
                     ?>
