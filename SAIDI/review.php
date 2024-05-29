@@ -43,7 +43,7 @@ if (isset($_POST["sended"])) // Recibe el Fichero CSV desde el script index.php 
             {
                 $tmp[0] = explode(";", $line[$i]); // explota en $tmp[0] por el ; los datos en $line en el Índice $i.
                 for ($j = 1; $j < count($tmp[0]); $j++) // Hace un bucle a la cantidad de datos.
-                    $data[0][$j] += $tmp[0][$j]; // Suma los valores en $tmp a partir del Índice 1 a los datos en $data[0] también a partir del Índice 1.
+                    $data[0][$j] += $tmp[0][$j]; // Suma los valores en $tmp[0] a partir del Índice 1 a los datos en $data[0] también a partir del Índice 1.
             }
         }
         $i++; // incrementa el Índice.
@@ -72,8 +72,6 @@ if (isset($_POST["sended"])) // Recibe el Fichero CSV desde el script index.php 
         $private = true; // Es una MAC privada.
     }
     $writeApi = $client->createWriteApi(); // Se asigna a la variable $writeApi la inserción de datos en InfluxDB.
-
-    // $data = new Data($data[0][0], $data[0][1], $data[0][2], $data[0][3], $data[0][4], $data[0][5], $data[0][6], $data[0][7], $data[0][8], $data[0][9], $data[0][10], $data[0][11], $data[0][12], $data[0][13], $data[0][14], $data[0][15]);
 
     $save = 'aintrusa,mac=' . $data[0][0] . ',mark=' . $owner . ',oui=' . $oui . ' qtty=' . $data[0][1] . ',uni=' . $data[0][2] . ',multi=' . $data[0][3] . ',broad=' . $data[0][4] . ',arp=' . $data[0][5] . ',traffic=' . $data[0][6] . ',icmp=' . $data[0][7] . ',udp=' . $data[0][8] . ',tcp=' . $data[0][9] . ',resto=' . $data[0][10] . ',ipv6=' . $data[0][11] . ',arp46=' . $data[0][12] . ',badip=' . $data[0][13] . ',ssdp=' . $data[0][14] . ',icmp6=' . $data[0][15]; // $save contiene todos los datos a almacenar en InfluxDB. Los Tags en Influx no pueden tener espacios.
 

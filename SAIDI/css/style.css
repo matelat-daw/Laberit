@@ -47,3 +47,11 @@ a{
     color: #C01719 !important;
     font-weight: 600 !important;
 }
+
+.customdanger {
+    border-color: #C01719 !important; /* Border color for danger */
+    color: #C01719 !important; /* Text color for danger */
+}
+.customdanger:focus {
+    box-shadow: 0 0 0 0.2rem #C0171945 !important; /* Focus shadow for danger */
+}

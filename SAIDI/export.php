@@ -111,13 +111,13 @@ include "includes/header.php";
                         <div class="col-md-2">
                         <form method="post">
                             <input type="hidden" name="data" value="<?php echo htmlspecialchars(json_encode($data)); ?>">
-                            <select name="file_type" class="form-control input-sm">
-                                <option value="Xlsx">Xlsx</option>
-                                <option value="Csv">Csv</option>
+                            <select name="file_type" class="form-control input-sm customdanger">
+                                <option value="Xlsx" class="optiondanger">Xlsx</option>
+                                <option value="Csv" class="optiondanger">Csv</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <input type="submit" name="export" class="btn btn-primary btn-lg" value="Descarga el Informe" />
+                            <input type="submit" name="export" class="btn btn-danger btn-lg" value="Descarga el Informe" />
                         </div>
                     </div>
                     </form>
