@@ -9,7 +9,7 @@ if (isset($_POST["data"]) && isset($_POST["index"])) // Viene de index.php
 if(isset($_POST["export"])) // Viene del Propio Script.
 {
     $data = json_decode($_POST["data"]);
-	$file = new PhpOffice\PhpSpreadsheet\Spreadsheet(); // Hay que usarlo así en Wordpress, también funciona en cualquier script de PHP o USE PhpOffice\PhpSpreadsheet\Spreadsheet();.
+	$file = new PhpOffice\PhpSpreadsheet\Spreadsheet(); // Hay que usarlo así en Wordpress, también funciona en cualquier script de PHP o USE PhpOffice\PhpSpreadsheet\Spreadsheet;.
 
 	$active_sheet = $file->getActiveSheet();
 

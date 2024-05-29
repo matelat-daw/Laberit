@@ -16,7 +16,6 @@ function show() // Se llama a la función show para mostrar la grafica de AMChar
 
 	if (typeof array_data != "undefined") // Si el array array_value contiene datos, es distinto de indefinido.
 	{
-        console.log(array_data);
 		if (index > 0) // Si el Índice de los datos es mayor que 0.
 		{
 			previ.style.visibility = "visible"; // Muestra el botón previ.
@@ -86,7 +85,9 @@ function show() // Se llama a la función show para mostrar la grafica de AMChar
 
 	data = getData(index); // Transforma el Objeto multiple en un objeto individual.
 
-    xAxis.data.setAll(data);
+	xAxis.data.setAll(data);
+
+	// console.log(data);
 
 	var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
 	min: -1,
@@ -116,12 +117,27 @@ function show() // Se llama a la función show para mostrar la grafica de AMChar
 
 	series.columns.template.setAll({
 		width: am5.percent(80),
-		tooltipText: "{name}, {categoryX} - [bold]{valueY} Pq",
+		tooltipText: "{name}, {categoryX} - [bold]{valueY}",
 		tooltipY: am5.percent(10)
 	});
 
-    series.data.setAll(data);
+	series.data.setAll(data);
 
+	//No data
+	
+	var modal = am5.Modal.new(root, {
+		content: "La gráfica no tiene datos"
+  	});
+  
+  
+  	series.events.on("datavalidated", function(ev) {
+		var series = ev.target;
+		if (ev.target.data.length < 1) {  
+			// Show modal
+			modal.open();
+		}
+	});
+	
 	// Make stuff animate on load
 	// https://www.amcharts.com/docs/v5/concepts/animations/
 	series.appear();
@@ -163,12 +179,15 @@ function show() // Se llama a la función show para mostrar la grafica de AMChar
 	chart.appear(1000, 100);
 }
 
+
+
 function getData(index)
 {
-    let data = [];
-
-    data[0] = array_data[index];
-
+	let data = [];
+	if (typeof array_data != "undefined")
+	{
+		data[0] = array_data[index];
+	}
     return data;
 }
 
@@ -185,14 +204,7 @@ function reset(where) // Esta Función Resetea la Gráfica eliminando el div que
 
   if (where != null) // where es null cuando se selecciona o deselecciona el checkbox para apilar/desapilar los datos.
   {
-      if (!where) // Si where es false.
-      {
-          index--; // Se pulsó el botón previ(Muestra la Gráfica Anterior).
-      }
-      else // Si No
-      {
-          index++; // Se pulsó el botón next(Muestra la Siguiente Gráfca.)
-      }
+	where == true ? index++ : index--;
   }
   show(); // Llama a la función show(), muestra la gráfica.
 }

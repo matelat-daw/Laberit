@@ -5,7 +5,7 @@ interface iData{
 
 class Data implements iData
 {
-    protected $fecha, $nPaquete, $unicast, $multicast, $broadcast, $arp, $aaaa, $icmp, $udp, $tcp, $otros, $ipv6, $bbbb, $cccc, $ssdp, $icpmv6;
+    public $fecha, $nPaquete, $unicast, $multicast, $broadcast, $arp, $aaaa, $icmp, $udp, $tcp, $otros, $ipv6, $bbbb, $cccc, $ssdp, $icpmv6;
 
     function __construct($fecha, $nPaquete, $uni, $multi, $broad, $arp, $traffic, $icmp, $udp, $tcp, $resto, $ipv6, $arp46, $badip, $ssdp, $icmp6)
     {

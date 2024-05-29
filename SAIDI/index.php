@@ -31,10 +31,10 @@ include "data.php";
                     <form method="post">
                         <label><select name="time" required>
                             <option value="">Selecciona una Opción</option>
-                            <option value="-1">Solo Hoy</option>
-                            <option value="-7">Desde Una Semana Atrás</option>
-                            <option value="-30">Desde el Mes Pasado</option>
-                            <option value="-365">De Todo el Año</option> Cuantos Tiempo Atrás</label>
+                            <option value="-1">Solo Hoy(1 Día)</option>
+                            <option value="-7">Desde Una Semana Atrás(7 Días)</option>
+                            <option value="-30">Desde el Mes Pasado(30 Días)</option>
+                            <option value="-365">De Todo el Año(365 Días)</option> Cuantos Tiempo Atrás</label>
                             <input type="submit" value="Ese Tiempo" class="btn btn-secondary btn-lg separate">
                     </form>
                     <br><br>
@@ -88,10 +88,6 @@ include "data.php";
                                             let array_table = " . json_encode($data) . ";
                                         makeData(array_data);
                                         makeTable(array_table);</script>";
-                        }   
-                        else // Si No Hay Datos.
-                        {
-                            echo "<script>toast(0, 'Sin Datos Aun', 'No Hay Datos de la Última Hora.');</script>"; // Mensaje No Hay Datos.
                         }
                     }
                     ?>
