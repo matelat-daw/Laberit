@@ -163,16 +163,16 @@ function show() // Se llama a la función show para mostrar la grafica de AMChar
 	makeSeries("Multicast", "multicast");
 	makeSeries("Broadcast", "broadcast");
 	makeSeries("ARP", "arp");
-	makeSeries("Aaaa", "aaaa");
+	makeSeries("Trafico ARP", "aaaa");
 	makeSeries("ICMP", "icmp");
 	makeSeries("UDP", "udp");
 	makeSeries("TCP", "tcp");
 	makeSeries("Otros", "otros");
 	makeSeries("IPV6", "ipv6");
-	makeSeries("Bbbb", "bbbb");
-	makeSeries("Cccc", "cccc");
+	makeSeries("!(ARP, IPV4, IPV6)", "bbbb");
+	makeSeries("IP no Existente", "cccc");
 	makeSeries("SSDP", "ssdp");
-	makeSeries("ICPMV6", "icpmv6");
+	makeSeries("ICMPV6", "icpmv6");
 
 	// Make stuff animate on load
 	// https://www.amcharts.com/docs/v5/concepts/animations/

@@ -89,6 +89,7 @@ include "data.php";
                                         makeData(array_data);
                                         makeTable(array_table);</script>";
                         }
+                        echo "<script>console.log(array_table);</script>";
                     }
                     ?>
                     <div id="table"></div>

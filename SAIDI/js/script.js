@@ -32,7 +32,9 @@ function change(page, qtty) // Función que muestra los resultados de a 8 en la 
         window.vlength = array_length; // Hago global la variable vlength.
         window.hlength = data_length; // Variable global hlength.
 
-        var html = "<table><tr class='text-center'><th>MAC</th><th>Marca</th><th>OUI</th><th>Fecha</th><th>ARP</th><th>ARP46</th><th>IP de otro Segmento</th><th>Broadcast</th><th>ICMP</th><th>ICPM6</th><th>IPV6</th><th>Multicast</th><th>Nº de Paquetes</th><th>Resto</th><th>Trafico</th><th>TCP</th><th>SSDP</th><th>UDP</th><th>Unicast</th></tr>";
+        // <th>Nº de Paquetes</th><th>Unicast</th><th>Multicast</th><th>Broadcast</th><th>ARP</th><th>Trafico ARP</th><th>ICMP</th><th>UDP</th><th>TCP</th><th>Otros</th><th>IPV6</th><th>!(ARP, IPV4, IPV6)</th><th>IP no Existente</th><th>SSDP</th><th>ICMP6</th>
+
+        var html = "<table><tr class='text-center'><th>MAC</th><th>Marca</th><th>OUI</th><th>Fecha</th><th>ARP</th><th>!(ARP, IPV4, IPV6)</th><th>IP no Existente</th><th>Broadcast</th><th>ICMP</th><th>ICMP6</th><th>IPV6</th><th>Multicast</th><th>Nº de Paquetes</th><th>Otros</th><th>SSDP</th><th>TCP</th><th>Trafico ARP</th><th>UDP</th><th>Unicast</th></tr>";
         for (i = 0 + qtty * (page - 1); i < array_length && i < qtty * page; i++)
         {
             html += "<tr>";
