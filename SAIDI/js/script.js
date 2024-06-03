@@ -21,16 +21,16 @@ function next() // La Función next muestra la página siguiente.
     }
 }
 
-function change(page, qtty) // Función que muestra los resultados de a 8 en la tabla, recibe la página page, la cantidad de resultados a mostrar qtty.
+function change(page, qtty) // Función que muestra los resultados de a 8 en la tabla, recibe la página page y la cantidad de resultados a mostrar qtty.
 {
     if (typeof array_value != "undefined" && array_value.length > 0)
     {
         window.page = page; // Asigno la variable page, a la variable global window.page.
         window.qtty = qtty; // Asigno la variable qtty, a la variable global window.qtty.
-        window.array_length = array_value.length;
-        const data_length = array_value[0].length;
-        window.vlength = 18; // array_length; // Hago global la variable length.
-        window.hlength = data_length;
+        window.array_length = array_value.length; // Tamaño del Array.
+        const data_length = array_value[0].length; // Tamaño de los Datos en cada Array.
+        window.vlength = array_length; // Hago global la variable vlength.
+        window.hlength = data_length; // Variable global hlength.
 
         var html = "<table><tr class='text-center'><th>MAC</th><th>Marca</th><th>OUI</th><th>Fecha</th><th>ARP</th><th>ARP46</th><th>IP de otro Segmento</th><th>Broadcast</th><th>ICMP</th><th>ICPM6</th><th>IPV6</th><th>Multicast</th><th>Nº de Paquetes</th><th>Resto</th><th>Trafico</th><th>TCP</th><th>SSDP</th><th>UDP</th><th>Unicast</th></tr>";
         for (i = 0 + qtty * (page - 1); i < array_length && i < qtty * page; i++)
@@ -49,7 +49,7 @@ function change(page, qtty) // Función que muestra los resultados de a 8 en la 
         html += "</tr></table>";
         table.innerHTML = html; // Muestro todo en pantalla.
 
-        if (array_length > 8) // Si la cantidad de Artículos es mayor que 5.
+        if (array_length > 8) // Si la cantidad de Artículos es mayor que 8.
         {
             pages.innerHTML = "Página: " + page; // Muestro el número de página.
             if (page == 1) // Si la página es la número 1
@@ -72,7 +72,7 @@ function change(page, qtty) // Función que muestra los resultados de a 8 en la 
     }
 }
 
-function makeTable(data)
+function makeTable(data) // Esta fución crea el array_value que se usa en javascript para mostrar los resultados en la tabla.
 {
     window.array_value = data;
 }

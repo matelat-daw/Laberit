@@ -1,7 +1,7 @@
 var index = 0;
 var data = [];
 
-function makeData(data) // Hace global el array_value asginandole el contenido de los datos de la variable de PHP $data, recibe los datos.
+function makeData(data) // Hace global el array_data asginandole el contenido de los datos del Objeto de PHP $data, recibe los datos.
 {    
     window.array_data = data;
 }
@@ -158,7 +158,7 @@ function show() // Se llama a la función show para mostrar la grafica de AMChar
 	legend.data.push(series);
 	}
 
-	makeSeries("Nº Paquetes", "nPaquete");
+	makeSeries("Nº Paquetes", "nPaquete"); // Llama a la función makeSeries, Crea las series con los datos en el Objeto.
 	makeSeries("Unicast", "unicast");
 	makeSeries("Multicast", "multicast");
 	makeSeries("Broadcast", "broadcast");
@@ -181,30 +181,30 @@ function show() // Se llama a la función show para mostrar la grafica de AMChar
 
 
 
-function getData(index)
+function getData(index) // La función getData(index) devuelve el objeto según el Índice requerido.
 {
-	let data = [];
-	if (typeof array_data != "undefined")
+	let data = []; // Crea el Aray data.
+	if (typeof array_data != "undefined") // Si el Objeto ya fue creado.
 	{
-		data[0] = array_data[index];
+		data[0] = array_data[index]; // Asgina a data[0] el Objeto en el Índice index.
 	}
-    return data;
+    return data; // Devuelve el Objeto.
 }
 
 function reset(where) // Esta Función Resetea la Gráfica eliminando el div que la contiene y volviendo a crearlo, recibe un dato que puede ser true, false o null, se usa para saber si se precionó el botón next(true), el botón previ(false) o null, se selcciono el checkbox.
 {
-  const next = document.getElementById("buttons");
-  const bodyElement = document.getElementById("view3");
-  const div = document. getElementById("chartdiv");
-  bodyElement. removeChild(div);
+	const next = document.getElementById("buttons");
+	const bodyElement = document.getElementById("view3");
+	const div = document. getElementById("chartdiv");
+	bodyElement. removeChild(div);
 
-  const container = document.createElement("div");
-  container.id = "chartdiv";
-  next.before(container);
+	const container = document.createElement("div");
+	container.id = "chartdiv";
+	next.before(container);
 
-  if (where != null) // where es null cuando se selecciona o deselecciona el checkbox para apilar/desapilar los datos.
-  {
-	where == true ? index++ : index--;
-  }
-  show(); // Llama a la función show(), muestra la gráfica.
+	if (where != null) // where es null cuando se selecciona o deselecciona el checkbox para apilar/desapilar los datos.
+	{
+		where == true ? index++ : index--; // Operador ternario, modifica el valor de index, si se pulsó el botón Siguiente index se incrementa en 1, si se pulso Anterior se decrementa.
+	}
+	show(); // Llama a la función show(), muestra la gráfica.
 }
