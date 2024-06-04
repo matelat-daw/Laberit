@@ -66,7 +66,7 @@ if (isset($_POST["sended"])) // Recibe el Fichero CSV desde el script index.php 
         }
     }
     else // Si es null.
-    {
+    {               
         $mark = "Android,_IOS,_Virtual"; // Es ua MAC randomizada.
         $oui = $data[0][0]; // Se asigna a $data[0][0] la MAC completa.
         $private = true; // Es una MAC privada.
