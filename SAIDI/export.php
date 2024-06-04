@@ -50,9 +50,9 @@ if(isset($_POST["export"])) // Viene del Propio Script.
         }
         $count++;
     }
-    $active_sheet->setCellValue('L' . ($count + 2), "Total Tamaño de Todos los Paquetes:");
+    $active_sheet->setCellValue('L' . ($count + 2), "Total Cantidad de Paquetes:");
     $active_sheet->setCellValue('M' . ($count + 2), "=SUM(M2:M" . ($count - 1) . ")");
-    $active_sheet->getStyle('M' . ($count + 2))->getNumberFormat()->setFormatCode('#,0. U');
+    // $active_sheet->getStyle('M' . ($count + 2))->getNumberFormat()->setFormatCode('#,0. U');
     $active_sheet->setCellValue('A' . ($count + 4), "Incidencias en la RED de Lãberit");
 
     $active_sheet->getRowDimension(1)->setRowHeight(20); // Cambia el tamaño Vertical de las filas usadas en la planilla.
