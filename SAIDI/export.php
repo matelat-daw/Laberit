@@ -18,18 +18,18 @@ if(isset($_POST["export"])) // Viene del Propio Script.
 	$active_sheet->setCellValue('C1', 'OUI');
 	$active_sheet->setCellValue('D1', 'Fecha');
 	$active_sheet->setCellValue('E1', 'ARP');
-	$active_sheet->setCellValue('F1', 'ARP46');
-    $active_sheet->setCellValue('G1', 'Broadcast');
-    $active_sheet->setCellValue('H1', 'ICPM');
-	$active_sheet->setCellValue('I1', 'ICPM6');
-	$active_sheet->setCellValue('J1', 'IPV6');
-    $active_sheet->setCellValue('K1', 'Multicast');
-	$active_sheet->setCellValue('L1', 'Resto');
+	$active_sheet->setCellValue('F1', '!(ARP, IPV4, IPV6)');
+    $active_sheet->setCellValue('G1', 'IP no Existente');
+    $active_sheet->setCellValue('H1', 'Broadcast');
+	$active_sheet->setCellValue('I1', 'ICPM');
+	$active_sheet->setCellValue('J1', 'ICPM6');
+    $active_sheet->setCellValue('K1', 'IPV6');
+	$active_sheet->setCellValue('L1', 'Multicast');
 	$active_sheet->setCellValue('M1', 'Nº de Paquetes');
-    $active_sheet->setCellValue('N1', 'Wrong IP');
+    $active_sheet->setCellValue('N1', 'Otros');
     $active_sheet->setCellValue('O1', 'SSDP');
 	$active_sheet->setCellValue('P1', 'TCP');
-	$active_sheet->setCellValue('Q1', 'Tráfico');
+	$active_sheet->setCellValue('Q1', 'Tráfico ARP');
     $active_sheet->setCellValue('R1', 'UDP');
 	$active_sheet->setCellValue('S1', 'Unicast');
 
@@ -129,18 +129,18 @@ include "includes/header.php";
                             <th>OUI</th>
                             <th>Fecha</th>
                             <th>ARP</th>
-                            <th>ARP46</th>
-                            <th>IP de otro Segmento</th>
+                            <th>!(ARP, IPV4, IPV6)</th>
+                            <th>IP no Existente</th>
                             <th>Broadcast</th>
                             <th>ICMP</th>
-                            <th>ICPM6</th>
+                            <th>ICMP6</th>
                             <th>IPV6</th>
                             <th>Multicast</th>
                             <th>Nº de Paquetes</th>
-                            <th>Resto</th>
-                            <th>Trafico</th>
-                            <th>TCP</th>
+                            <th>Otros</th>
                             <th>SSDP</th>
+                            <th>TCP</th>
+                            <th>Trafico ARP</th>
                             <th>UDP</th>
                             <th>Unicast</th>
                         </tr>
