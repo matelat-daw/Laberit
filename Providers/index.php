@@ -19,7 +19,10 @@ echo "<h2>Formulario de Proveedores</h2>
     
     // Recuperar datos
     $cursor = $collection->find(['edad' => ['$gte' => 18]]); // Buscar documentos con edad >= 18
+    // echo "<script>let collection = " . $cursor . "</script>";
+    echo "<table><tr><th>Nombre</th><th>Email</th><th>Edad</th><th>Acciones</th></tr>";
     foreach ($cursor as $document) {
-        echo "Nombre: " . $document['nombre'] . ", Email: " . $document['email'] . ", Edad: " . $document['edad'] . "<br>";
+        echo "<tr><td>" . $document['nombre'] . "</td><td>" . $document['email'] . "</td><td>" . $document['edad'] . "</td><td><button onclick='details(\"" . $document['_id'] . "\");' class='btn btn-info'>Detalles</button>&nbsp;&nbsp;<button onclick='update(\"" . $document['_id'] . "\");' class='btn btn-primary'>Modificar</button>&nbsp;&nbsp;<button onclick='deletit(\"" . $document['_id'] . "\");' class='btn btn-danger'>Eliminar</button></td></tr>";
     }
+    echo "</table><br><br><br>";
 include 'includes/footer.html';
