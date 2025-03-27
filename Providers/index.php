@@ -6,7 +6,8 @@ $id = null;
 $name = "";
 $email = "";
 $age = "";
-if (isset($_GET["id"])) {
+if (isset($_GET["id"]))
+{
     $id = $_GET["id"];
     $user = $collection->find(['_id' => new MongoDB\BSON\ObjectId($id)]);
     foreach ($user as $item) {

@@ -26,27 +26,20 @@ function toast(warn, ttl, msg) // Función para mostrar el Dialogo con los mensa
 function form(ttl, forma)
 {
     var alerta = document.getElementById("alerta"); // La ID del botón del dialogo.
-    var title = document.getElementById("title"); // Asigno a la variable title el h4 con id title.
-    var form = document.getElementById("form"); // Asigno a la variable message el h5 con id message;
+    var title = document.getElementById("title"); // Asigno a la variable title el h3 con id title.
+    var form = document.getElementById("form"); // Asigno a la variable message el div con id form;
 
     title.innerHTML = ttl; // Muestro el Título del dialogo.
-    form.innerHTML = forma; // Muestro los mensajes en el diálogo.
+    form.innerHTML = forma; // Muestro el formulario con los cotones Eliminar y Cancelar en el diálogo.
     alerta.click(); // Lo hago aparecer pulsando el botón con ID alerta.
-}
-
-function details(id)
-{
-    console.log("Pasaste la ID: " + id);
 }
 
 function update(id)
 {
-    console.log("Pasaste la ID: " + id);
-    window.location.href = "index.php?id=" + id;
+    window.location.href = "index.php?id=" + id; // Abro la página index.php pasandole la id por get.
 }
 
 function deletit(id)
 {
-    console.log("Pasaste la ID: " + id);
-    window.location.href = "delete.php?id=" + id;
+    window.location.href = "delete.php?id=" + id; // Abro la página delete.php pasandole la id por get.
 }
