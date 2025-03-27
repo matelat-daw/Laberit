@@ -10,20 +10,6 @@ try {
     $client = new Client("mongodb://localhost:27017"); // Conexión local.
     $database = $client->selectDatabase('Providers'); // Nombre de la base de datos
     $collection = $database->selectCollection('Supplier'); // Nombre de la colección
-
-    // // Insertar datos
-    // $insertResult = $collection->insertOne([
-    //     'nombre' => 'César Matelat',
-    //     'email' => 'cesarmatelat@gmail.com',
-    //     'edad' => 56
-    // ]);
-    // echo "Documento insertado con ID: " . $insertResult->getInsertedId() . "<br>";
-
-    // // Recuperar datos
-    // $cursor = $collection->find(['edad' => ['$gte' => 18]]); // Buscar documentos con edad >= 18
-    // foreach ($cursor as $document) {
-    //     echo "Nombre: " . $document['nombre'] . ", Email: " . $document['email'] . ", Edad: " . $document['edad'] . "<br>";
-    // }
 } catch (Exception $e) {
     echo 'Error: ' . $e->getMessage(); // Muestra el error
 }
