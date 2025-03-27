@@ -42,6 +42,7 @@ function details(id)
 function update(id)
 {
     console.log("Pasaste la ID: " + id);
+    window.location.href = "index.php?id=" + id;
 }
 
 function deletit(id)
