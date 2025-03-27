@@ -22,3 +22,8 @@ td /* A los títulos, filas y columnas de la tabla les doy borde de color azul y
     border: 1px solid blue;
     font-size: 1.3rem;
 }
+
+a
+{
+    text-decoration: none;
+}
