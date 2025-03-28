@@ -1,0 +1,48 @@
+Los datos personales y de la empresa están protegidos en este chat
+
+¡Claro! Aquí tienes un ejemplo de cómo hacer una petición a un servidor en JavaScript que devuelve datos comprimidos y cómo descomprimirlos en el cliente. Utilizaremos fetch para la petición y pako para descomprimir los datos.
+
+Primero, asegúrate de tener pako instalado. Si estás usando un entorno de desarrollo con npm, puedes instalarlo con:
+
+npm install pako
+
+
+Luego, puedes usar el siguiente código:
+
+// Importa pako
+import pako from 'pako';
+
+// Función para hacer la petición y descomprimir los datos
+async function fetchAndDecompress(url) {
+  try {
+    // Realiza la petición al servidor
+    const response = await fetch(url, {
+      headers: {
+        'Accept-Encoding': 'gzip' // Asegúrate de que el servidor soporte gzip
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    // Obtén los datos comprimidos como un ArrayBuffer
+    const compressedData = await response.arrayBuffer();
+
+    // Descomprime los datos usando pako
+    const decompressedData = pako.inflate(new Uint8Array(compressedData), { to: 'string' });
+
+    // Convierte los datos descomprimidos a JSON (si es necesario)
+    const jsonData = JSON.parse(decompressedData);
+
+    console.log(jsonData);
+  } catch (error) {
+    console.error('Error fetching or decompressing data:', error);
+  }
+}
+
+// Llama a la función con la URL del servidor
+fetchAndDecompress('https://example.com/data');
+
+
+Este código realiza una petición fetch a un servidor que devuelve datos comprimidos con gzip. Luego, usa pako.inflate para descomprimir los datos y los convierte a JSON si es necesario. Asegúrate de que el servidor esté configurado para comprimir las respuestas con gzip.

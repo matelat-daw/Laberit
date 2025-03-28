@@ -33,7 +33,6 @@ echo "<h2>Formulario de Proveedores</h2>
     </form><br><br>";
     
     // Recuperar datos
-    // $cursor = $collection->find(['edad' => ['$gte' => 18]]); // Buscar documentos con edad >= 18
     $filter  = []; // Filtro Vacío.
     $options = ['sort' => ['email' => -1]]; // Ordena por Edad Ascendente.
     $cursor = $collection->find($filter, $options); // Buscar todos los documentos, y Ordena por $options sin filtrar.
