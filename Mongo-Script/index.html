@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MongoDB CRUD en Javascript</title>
+    <script src="js/script.js"></script>
+    <script src="js/playground-1.mongodb.js"></script>
+</head>
+<body>
+    <h1>Te Damos la Bienvenida al CRUD de MongoDB</h1>
+    <h2>Formulario de Proveedores</h2>
+    <h3>Insertar Proveedor</h3>
+    <br>
+    <form novalidate>
+        <input type='hidden' name='id' value='$id'>
+        <input type='text' name='nombre' id='nombre' value='' required>
+        <label for='nombre'>Nombre</label><br><br>
+        <input type='email' name='email' id='email' value='' required>
+        <label for='email'>Email</label><br><br>
+        <input type='number' name='edad' id='edad' value='' required>
+        <label for='edad'>Edad</label><br><br>
+        <input type='submit' onclick="insert()" value='Insertar'>
+    </form><br><br>
+</body>
+</html>
