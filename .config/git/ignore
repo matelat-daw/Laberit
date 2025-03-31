@@ -1,2 +1,4 @@
-obj/
-bin/
+MongoApi/bin/
+MongoApi/obj/
+Mongo-MVC/bin
+Mongo-MVC/obj
