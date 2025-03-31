@@ -8318,11 +8318,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Server\\www\\Laberit\\MongoDB\\Laberit\\MongoApi\\MongoApi.csproj",
+      "projectUniqueName": "C:\\Server\\www\\MongoDB\\Laberit\\MongoApi\\MongoApi.csproj",
       "projectName": "MongoApi",
-      "projectPath": "C:\\Server\\www\\Laberit\\MongoDB\\Laberit\\MongoApi\\MongoApi.csproj",
+      "projectPath": "C:\\Server\\www\\MongoDB\\Laberit\\MongoApi\\MongoApi.csproj",
       "packagesPath": "C:\\Users\\Orion\\.nuget\\packages\\",
-      "outputPath": "C:\\Server\\www\\Laberit\\MongoDB\\Laberit\\MongoApi\\obj\\",
+      "outputPath": "C:\\Server\\www\\MongoDB\\Laberit\\MongoApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -8337,7 +8337,8 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://nuget.ahorabh.com/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {

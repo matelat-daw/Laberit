@@ -1,0 +1,42 @@
+﻿@model IEnumerable<MongoTest.Models.Users>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Te Damos la Bienvenida</h1>
+</div>
+<div>
+    <h2>Lista de Usuarios de MongoDB</h2>
+    <br />
+    <p>
+        <a asp-action="Create" class="btn btn-success">Agrega un Usuario</a>
+    </p>
+    <br />
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Edad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.nombre</td>
+                    <td>@user.email</td>
+                    <td>@user.edad</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-secondary">Modificar</a> |
+                        <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-info">Detalles</a> |
+                        <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

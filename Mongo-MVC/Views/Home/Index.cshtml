@@ -1,0 +1,17 @@
+﻿@model IEnumerable<MongoTest.Models.Users>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Te Damos la Bienvenida</h1>
+</div>
+<div>
+    <h2>Lista de Usuarios de MongoDB</h2>
+    <br />
+    <p>
+        <a asp-action="Index" asp-controller="Users">Lista de Usuarios</a>
+    </p>
+    <br />
+</div>
