@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "CY1mQdQls0g=",
+  "dgSpecHash": "ox4Hcfo3pq4=",
   "success": true,
-  "projectFilePath": "C:\\Server\\www\\MongoDB\\Laberit\\MongoApi\\MongoApi.csproj",
+  "projectFilePath": "C:\\Server\\www\\Laberit\\MongoDB\\Laberit\\MongoApi\\MongoApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Orion\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\Orion\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
