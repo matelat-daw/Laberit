@@ -34,7 +34,7 @@ echo "<h2>Formulario de Proveedores</h2>
     
     // Recuperar datos
     $filter  = []; // Filtro Vacío.
-    $options = ['sort' => ['email' => -1]]; // Ordena por Edad Ascendente.
+    $options = ['sort' => ['email' => -1]]; // Ordena por E-mail Ascendente.
     $cursor = $collection->find($filter, $options); // Buscar todos los documentos, y Ordena por $options sin filtrar.
     echo "<table><tr><th>Nombre</th><th>Email</th><th>Edad</th><th>Acciones</th></tr>";
     foreach ($cursor as $document) {
