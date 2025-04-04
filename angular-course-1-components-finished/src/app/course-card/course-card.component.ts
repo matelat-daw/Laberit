@@ -34,10 +34,8 @@ export class CourseCardComponent implements OnInit, AfterViewInit, AfterContentI
     @Output('courseSelected')
     courseEmitter = new EventEmitter<Course>();
 
-
     @ContentChildren(CourseImageComponent, {read: ElementRef})
     images: QueryList<ElementRef>;
-
 
     constructor() {
     }
@@ -51,7 +49,6 @@ export class CourseCardComponent implements OnInit, AfterViewInit, AfterContentI
         console.log(this.images);
 
     }
-
 
     ngOnInit() {
 
@@ -79,7 +76,4 @@ export class CourseCardComponent implements OnInit, AfterViewInit, AfterContentI
 
         };
     }
-
-
-
 }

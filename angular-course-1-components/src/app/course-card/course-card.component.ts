@@ -7,24 +7,30 @@ import { Course } from '../model/course';
   templateUrl: './course-card.component.html',
   styleUrl: './course-card.component.css'
 })
-export class CourseCardComponent implements OnInit{
+export class CourseCardComponent {
   @Input()
-  course: Course;
+  course?: Course;
+
+  @Input({ required: true })
+  index?: number;
 
   // @Output() // Espera que el Emitter tenga el mismo nombre que el custom event en la vista.
   @Output("courseSelected") // Le pasa el nombre del custom event en la vista al Emitter.
   courseEmitter = new EventEmitter<Course>();
 
-  constructor() {
+  // constructor() {
+  // }
 
-  }
-
-  ngOnInit() {
-  }
+  // ngOnInit() {
+  // }
 
   onCourseViewed()
   {
-    console.log('Course viewed', this.course.id);
+    if (this.course) {
+      console.log('Course viewed', this.course.id);
+    } else {
+      console.log('Course is undefined');
+    }
     this.courseEmitter.emit(this.course);
   } 
 }
