@@ -6,14 +6,16 @@
 </div>
 
 <div class="courses">
-    @for (course of courses; track course.id; let index = $index; let count = $count; let first = $first; let last = $last; let odd = $odd; let even = $even) {
+    <!-- @for (course of courses; track course.id; let index = $index; let count = $count; let first = $first; let last = $last; let odd = $odd; let even = $even) { -->
+     @for (course of courses; track course.id)
+     {
         <course-card
         [course]="course"
-        [index]="index"
-        [class.is-first]="first"
-        [class.is-last]="last"
-        [class.is-odd]="odd"
-        [class.is-even]="even"
+        [index]="$index"
+        [class.is-first]="$first"
+        [class.is-last]="$last"
+        [class.is-odd]="$odd"
+        [class.is-even]="$even"
         (courseSelected)="onCourseSelected($event)" />
     }
 
