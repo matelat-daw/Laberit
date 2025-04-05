@@ -14,6 +14,7 @@ useEffect(() => {
     setIsLoading(true);
     const fetchItems = async () => {
       const users = await getUsers();
+      console.log(users);
       // const images = await getImages(users);
       setIsLoading(false);
       setUsers(users);
