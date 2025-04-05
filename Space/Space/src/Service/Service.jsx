@@ -5,8 +5,8 @@ let users = [];
 // Obtener Todos los Usuarios.
 export const getUsers = async () => {
     try {
-        return await fetch("https://192.168.1.39/api/Account/Users").then(respuesta => respuesta.json())
-        // return await fetch("https://localhost:7227/api/Account/Users").then(respuesta => respuesta.json())
+        // return await fetch("https://88.24.163.68/api/Account/Users").then(respuesta => respuesta.json())
+        return await fetch("https://localhost:7227/api/Account/Users").then(respuesta => respuesta.json())
         .catch(respuesta => toast(2, "Error de Conexión", "Lo Siento No hay Conexión con el Servidor. Asegurate de que el Servidor está en Ejecución. Error: " + respuesta))
         // .then(jsonData => getImages(jsonData));
     } catch (error) {
