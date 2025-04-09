@@ -5,6 +5,21 @@
 
 </div>
 
+<div class="demo">
+    <div>Fecha de Inicio: {{startDate | date: "dd MMM yyyy"}}</div>
+    <br>
+    <div>Título: {{title | titlecase}}</div>
+    <br>
+    <div>Precio: {{price | currency: '€'}}</div>
+    <br>
+    <div>Descuento: {{rate | percent}}</div>
+</div>
+
+<br>
+    <div class="col-md" *ngFor="let item of coreCourse | keyvalue">
+        {{item.key}}: {{item.value}}
+    </div>
+
 <div class="courses">
     <!-- @for (course of courses; track course.id; let index = $index; let count = $count; let first = $first; let last = $last; let odd = $odd; let even = $even) { -->
      @for (course of courses; track course.id)

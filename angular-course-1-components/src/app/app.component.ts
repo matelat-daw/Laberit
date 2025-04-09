@@ -10,8 +10,12 @@ import { Course } from './model/course';
 })
 export class AppComponent {
     courses = COURSES;
+    startDate = new Date(2025, 0, 1);
+    title = COURSES[0].description;
+    price = 9.989898;
+    rate = .25;
     // courses = [];
-    // coreCourse = COURSES[0];
+    coreCourse = COURSES[0];
     // rxjsCourse = COURSES[1];
     // ngrxCourse = COURSES[2];
 
