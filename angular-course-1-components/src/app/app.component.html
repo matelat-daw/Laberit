@@ -16,9 +16,18 @@
 </div>
 
 <br>
-    <div class="col-md" *ngFor="let item of coreCourse | keyvalue">
-        {{item.key}}: {{item.value}}
-    </div>
+    <!-- <div class="col-md" *ngFor="let item of coreCourse | keyvalue"> -->
+        <!-- {{item.key}}: {{item.value}} -->
+    <!-- </div> -->
+     <!--  /* Angunlar old features. */ -->
+
+    @for (item of coreCourse | keyvalue; track item.key)
+    {
+        <div>
+            {{item.key}}: {{item.value}}
+        </div>
+    }
+    <!--  /* Angunlar new features. */ -->
 
 <div class="courses">
     <!-- @for (course of courses; track course.id; let index = $index; let count = $count; let first = $first; let last = $last; let odd = $odd; let even = $even) { -->
