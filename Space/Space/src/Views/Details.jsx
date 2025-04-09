@@ -6,19 +6,19 @@ const Details = () => {
     const { id } = useParams();
     const [users, setUsers] = useState([]);
     const [user, setName] = useState([]);
-    const obj2 = [];
+    const obj = [];
 
     useEffect(() => {
         if (id)
         {
             const fetchUsers = async () => {
-                const users2 = await getUsers();
-                obj2[0] = users2;
-                const userId = obj2.find((user) => user.id === id);
+                const users = await getUsers();
+                const userId = users.find((user) => user.id === id);
+                obj[0] = userId; // Para poder usar map hay que meter el JSON en un array.
                 setName(userId.name);
                 if (users)
                 {
-                    setUsers(obj2);
+                    setUsers(obj);
                 }
                 else
                 {

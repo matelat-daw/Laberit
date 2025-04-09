@@ -17,9 +17,10 @@ useEffect(() => {
       console.log(users);
       // const images = await getImages(users);
       setIsLoading(false);
-      const obj2 = [];
-      obj2[0] = users; // Para poder usar map hay que meter el JSON en un array.
-      setUsers(obj2);
+      // const obj2 = [];
+      // obj2[0] = users; // Para poder usar map hay que meter el JSON en un array.
+      // setUsers(obj2);
+      setUsers(users);
       // setImages(images);
     };
     fetchItems();

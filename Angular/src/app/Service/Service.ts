@@ -1,84 +1,70 @@
-import script from './js/script.js';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
-let users: any[] = [];
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+  users = [];
 
-// Obtener Todos los Usuarios.
-export const getUsers = async () => {
-    try {
-        // return await fetch("https://88.24.163.68/api/Account/Users").then(respuesta => respuesta.json())
-        return await fetch("https://localhost:7227/api/Account/Users").then(respuesta => respuesta.json())
-        .catch(respuesta => script.toast(2, "Error de Conexión", "Lo Siento No hay Conexión con el Servidor. Asegurate de que el Servidor está en Ejecución. Error: " + respuesta))
-        // .then(jsonData => getImages(jsonData));
-    } catch (error) {
-      console.error('Error al Intentar Obtener los Usuarios:', error);
-    }
-  };
+  constructor(private http: HttpClient) {}
 
-export function getImages(jsonData: any[])
-{
-    jsonData.map(img => blobConverter(img.image));
+  // Obtener Todos los Usuarios.
+  getUsers() {
+    return this.http.get("https://192.168.83.41/api/Account/Users").pipe(
+      catchError(error => {
+        toast(2, "Error de Conexión", "Lo Siento No hay Conexión con el Servidor. Asegurate de que el Servidor está en Ejecución. Error: " + error);
+        return of([]);
+      })
+    );
+  }
+
+  getImages(jsonData) {
+    jsonData.forEach(img => this.blobConverter(img.profileImage));
     return jsonData;
-}
+  }
 
-async function blobConverter(urlImg: string | URL | Request){
-    let blobImg;
-    await fetch(urlImg)
-    .then(res => res.blob())
-    .then(blob => blobImg=blob);
-    createElements(blobImg);
-}
+  async blobConverter(urlImg) {
+    const response = await fetch(urlImg);
+    const blobImg = await response.blob();
+    this.createElements(blobImg);
+  }
 
-let imageArray: any[] = [];
-let index = 0;
-function createElements(blobImg)
-{
-    let img = document.createElement("img");
+  imageArray = [];
+  index = 0;
+  createElements(blobImg) {
+    const img = document.createElement("img");
     img.src = URL.createObjectURL(blobImg);
     img.alt = "Foto de Perfil";
-    imageArray[index] = img;
-    console.log("Imagen: " + index + " es: " + imageArray[index]);
-    index++;
-    return imageArray;
-}
-  
-  // Agregar/Modificar una Receta
-  export const createUser = async (id, newUser) => {
-    if (id)
-    {
-        try {
-                users = users.map(user => 
-                users.id == id ? { ...user, ...newUser } : user
-            );
-        return users;
-        } catch (error) {
-            console.error('Error al Modificar un Usuario: ', error);
-        }
-    }
-    else
-    {
-        try {
-        newUser.id = users.length ? users[users.length - 1].id + 1 : 1;
-        users.push(newUser);
-        return users;
-        } catch (error) {
-        console.error('Error al Agregar un Usuario: ', error);
-        }
-    }
-  };
-  
-  // Eliminar una Receta
-  export const deleteUser = async (id) => {
-    try {
-        users = users.filter(user => user.id !== id);
-    } catch (error) {
-      console.error('Error al Eliminar un Usuario: ', error);
-    }
-  };
+    this.imageArray[this.index] = img;
+    console.log("Imagen: " + this.index + " es: " + this.imageArray[this.index]);
+    this.index++;
+    return this.imageArray;
+  }
 
-//   export const getRecipie = async (id) => {
-//     try {
-//       return recetas.find(receta => receta.id === parseInt(id)).filter(receta => receta.ingridients);
-//     } catch (error) {
-//       console.error('Error Obteniendo los Ingredientes: ', error);
-//     }
-//   }
+  // Agregar/Modificar un Dato.
+  createUser(id, newUser) {
+    if (id) {
+      const userIndex = this.users.findIndex(user => user.id == id);
+      if (userIndex !== -1) {
+        this.users[userIndex] = { ...this.users[userIndex], ...newUser };
+      }
+      return this.users;
+    } else {
+      newUser.id = this.users.length ? this.users[this.users.length - 1].id + 1 : 1;
+      this.users.push(newUser);
+      return this.users;
+    }
+  }
+
+  // Eliminar un Dato.
+  deleteUser(id) {
+    this.users = this.users.filter(user => user.id !== id);
+  }
+
+  getUser(id) {
+    return this.users.find(user => user.id === parseInt(id));
+  }
+}
