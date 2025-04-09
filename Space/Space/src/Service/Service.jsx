@@ -5,8 +5,8 @@ let users = [];
 // Obtener Todos los Usuarios.
 export const getUsers = async () => {
     try {
-        // return await fetch("https://88.24.163.68/api/Account/Users").then(respuesta => respuesta.json())
-        return await fetch("https://localhost:7227/api/Account/Users").then(respuesta => respuesta.json())
+        return await fetch("https://192.168.83.41/api/Account/Gente").then(respuesta => respuesta.json())
+        // return await fetch("https://localhost:7227/api/Account/Users").then(respuesta => respuesta.json())
         .catch(respuesta => toast(2, "Error de Conexión", "Lo Siento No hay Conexión con el Servidor. Asegurate de que el Servidor está en Ejecución. Error: " + respuesta))
         // .then(jsonData => getImages(jsonData));
     } catch (error) {
@@ -16,7 +16,7 @@ export const getUsers = async () => {
 
 export function getImages(jsonData)
 {
-    jsonData.map(img => blobConverter(img.image));
+    jsonData.map(img => blobConverter(img.profileImage));
     return jsonData;
 }
 
@@ -41,7 +41,7 @@ function createElements(blobImg)
     return imageArray;
 }
   
-  // Agregar/Modificar una Receta
+  // Agregar/Modificar un Dato.
   export const createUser = async (id, newUser) => {
     if (id)
     {
@@ -66,7 +66,7 @@ function createElements(blobImg)
     }
   };
   
-  // Eliminar una Receta
+  // Eliminar un Dato.
   export const deleteUser = async (id) => {
     try {
         users = users.filter(user => user.id !== id);
@@ -75,10 +75,10 @@ function createElements(blobImg)
     }
   };
 
-//   export const getRecipie = async (id) => {
-//     try {
-//       return recetas.find(receta => receta.id === parseInt(id)).filter(receta => receta.ingridients);
-//     } catch (error) {
-//       console.error('Error Obteniendo los Ingredientes: ', error);
-//     }
-//   }
+  export const getUser = async (id) => {
+    try {
+      return users.find(user => user.id === parseInt(id)).filter(user => user.name);
+    } catch (error) {
+      console.error('Error Obteniendo los Datos: ', error);
+    }
+  }
