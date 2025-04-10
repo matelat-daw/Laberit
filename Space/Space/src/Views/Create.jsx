@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 const Create = () => {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({ name: '', surname: '', email: '' });
+    const [formData, setFormData] = useState({ name: '', surname1: '', email: '' });
     const { id } = useParams();
 
   const handleChange = (e) => {
@@ -40,6 +40,7 @@ useEffect(() => {
     <div>
       <h2>Añadir/Modificar Usuario</h2>
       <form onSubmit={handleSubmit} enctype="multipart/form-data">
+        <input type="hidden" name="id" value={id} />
         <label htmlFor='name' className='left'>Nombre:</label>
         <br />
         <input id='name' type="text" name="name" className='left' value={formData.name} onChange={handleChange} placeholder="Nombre" required />

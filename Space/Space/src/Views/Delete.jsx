@@ -3,11 +3,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { deleteUser } from '../Service/Service';
 
 const Delete = () => {
-    const { id } = useParams();
+    const { id } = useParams(); // Funca.
     const navigate = useNavigate();
 
   const handleDelete = async () => {
-    await deleteUser(id);
+    await deleteUser(id); // Pasa la ID del usuario a eliminar.
     navigate('/read');
   };
 
