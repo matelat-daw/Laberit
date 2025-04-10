@@ -7,14 +7,14 @@ const Delete = () => {
     const navigate = useNavigate();
 
   const handleDelete = async () => {
-    await deleteUser(parseInt(id));
+    await deleteUser(id);
     navigate('/read');
   };
 
   return (
     <div>
-      <h2>Eliminar la Receta con ID: {id}</h2>
-      <p>¿Estás Seguro que Quieres Eliminar esa Receta?</p>
+      <h2>Eliminar el Usuario con ID: {id}</h2>
+      <p>¿Estás Seguro que Quieres Eliminar ese Usuario?</p>
       <button onClick={handleDelete}>Eliminar</button>&nbsp;&nbsp;
       <button onClick={() => navigate('/read')}>Cancel</button>
     </div>

@@ -106,6 +106,16 @@ function createElements(blobImg)
   export const deleteUser = async (id) => {
     try {
         users = users.filter(user => user.id !== id);
+        console.log("Usuario a Eliminar: " + id);
+        fetch("https://88.24.25.50/api/Account/Delete/" + id, {
+          method: "DELETE",
+          body: JSON.stringify(id),
+          headers: {
+              "Content-Type": "application/json"
+          },
+        }).then(res => res.json())
+                    .catch(error => toast(2, "Error al Eliminar:", "Parece que No Hay Conexión con el Servidor. " + error));
+                    toast(0, "Usuario Eliminado:", "Usuario Eliminado Correctamente.");
     } catch (error) {
       console.error('Error al Eliminar un Usuario: ', error);
     }
@@ -113,7 +123,7 @@ function createElements(blobImg)
 
   export const getUser = async (id) => {
     try {
-      return users.find(user => user.id === parseInt(id)).filter(user => user.name);
+      return users.find(user => user.id === id).filter(user => user.name);
     } catch (error) {
       console.error('Error Obteniendo los Datos: ', error);
     }
