@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 const Create = () => {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({ name: '', email: '' });
+    const [formData, setFormData] = useState({ name: '', surname: '', email: '' });
     const { id } = useParams();
 
   const handleChange = (e) => {
@@ -21,15 +21,15 @@ useEffect(() => {
     if (id)
     {
         const fetchItem = async () => {
-        const recetas = await getUsers();
-        const receta = recetas.find((receta) => receta.id === parseInt(id));
-            if (receta)
+        const users = await getUsers();
+        const user = users.find((user) => user.id === id);
+            if (user)
             {
-                setFormData(receta);
+                setFormData(user);
             }
             else
             {
-                console.error('Receta no Encontrada.');
+                console.error('Usuario no Encontrado.');
             }
         };
         fetchItem();
@@ -38,21 +38,27 @@ useEffect(() => {
 
   return (
     <div>
-      <h2>Añadir/Modificar Receta</h2>
+      <h2>Añadir/Modificar Usuario</h2>
       <form onSubmit={handleSubmit} enctype="multipart/form-data">
         <label htmlFor='name' className='left'>Nombre:</label>
         <br />
         <input id='name' type="text" name="name" className='left' value={formData.name} onChange={handleChange} placeholder="Nombre" required />
         <br /><br />
-        <label htmlFor='kind' className='left'>Tipo de Cocina:</label>
+        <label htmlFor='surname1' className='left'>Apellido:</label>
         <br />
-        <input id='kind' type="text" name="cuisine" className='left' value={formData.cuisine} onChange={handleChange} placeholder="Tipo de Cocina" required />
+        <input id='surname1' type="text" name="surname1" className='left' value={formData.surname1} onChange={handleChange} placeholder="Apellido" required />
+        <br /><br />
+        <label htmlFor='email' className='left'>E-mail:</label>
+        <br />
+        <input id='email' type="text" name="email" className='left' value={formData.email} onChange={handleChange} placeholder="E-mail" required />
         <br /><br />
         <label htmlFor='img' className='left'>Imagen</label>
         <br />
-        <input id='img' type="file" name="image" className='left' onChange={handleChange} placeholder="Imagen" required />
+        <input id='img' type="file" name="profileImage" className='left' onChange={handleChange} placeholder="Imagen" required />
         <br /><br />
-        <button type="submit" className='btn btn-success'>Agregar Receta</button>
+        {
+          !id ? <button type="submit" className='btn btn-success'>Agregar Usuario</button> : <button type="submit" className='btn btn-info'>Modificar Usuario</button>
+        }
       </form>
     </div>
   );

@@ -5,7 +5,7 @@ let users = [];
 // Obtener Todos los Usuarios.
 export const getUsers = async () => {
     try {
-        return await fetch("https://192.168.83.41/api/Account/Users").then(respuesta => respuesta.json())
+        return await fetch("https://88.24.25.50/api/Account/Users").then(respuesta => respuesta.json())
         // return await fetch("https://localhost:7227/api/Account/Users").then(respuesta => respuesta.json())
         .catch(respuesta => toast(2, "Error de Conexión", "Lo Siento No hay Conexión con el Servidor. Asegurate de que el Servidor está en Ejecución. Error: " + respuesta))
         // .then(jsonData => getImages(jsonData));
@@ -47,21 +47,57 @@ function createElements(blobImg)
     {
         try {
             users = users.map(user => 
-                users.id == id ? { ...user, ...newUser } : user
+                user.id === id.id ? { ...user, ...newUser } : user
             );
+            console.log("Usuario Modificado: " + id.id);
+            console.log("Usuario con Nombre: " + id.name);
+
+            let datosUpdate = {
+              id: id.id,
+              nombre: id.name,
+              surname1: id.surname1,
+              email: id.email,
+              profileImage: id.profileImage
+          }
+          fetch("https://88.24.25.50/api/Account/Update/" + id.id, {
+              method: "PATCH",
+              body: JSON.stringify(datosUpdate),
+              headers: {
+                  "Content-Type": "application/json"
+              },
+          }).then(res => res.json())
+          .catch(error => toast(2, "Error al Actualizar:", "Parece que No Hay Conexión con el Servidor. " + error));
+          toast(0, "Usuario Modificado:", "Usuario Modificado Correctamente.");
+
         return users;
         } catch (error) {
-            console.error('Error al Modificar un Usuario: ', error);
+            console.error('Error al Modificar el Usuario: ', error);
         }
     }
     else
     {
         try {
-        newUser.id = users.length ? users[users.length - 1].id + 1 : 1;
+        // newUser.id = users.length ? users[users.length - 1].id + 1 : 1;
+              let datosCreate = {
+                nombre: newUser.name,
+                surname1: newUser.surname,
+                email: newUser.email,
+                image: newUser.image
+            }
+            fetch("https://88.24.25.50/api/Account/Register", {
+                method: "POST",
+                body: JSON.stringify(datosCreate),
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).then(res => res.json())
+            .catch(error => toast(2, "", "Error al Crear: " + error));
+            toast(0, "Usuario Creado:", "Usuario Creado Correctamente.");
+
         users.push(newUser);
         return users;
         } catch (error) {
-        console.error('Error al Agregar un Usuario: ', error);
+        console.error('Error al Agregar el Usuario: ', error);
         }
     }
   };
