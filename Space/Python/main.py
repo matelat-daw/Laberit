@@ -1,4 +1,4 @@
-import requests
+import requests # type: ignore
 
 # Define the API endpoint and parameters
 url = "https://maps.googleapis.com/maps/api/distancematrix/json"
