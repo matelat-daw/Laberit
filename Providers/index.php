@@ -30,7 +30,14 @@ echo "<h2>Formulario de Proveedores</h2>
         <input type='number' name='edad' id='edad' value='$age' required>
         <label for='edad'>Edad</label><br><br>
         <input type='submit' value='Insertar'>
-    </form><br><br>";
+    </form><br><br>
+    <h2>Leer datos de un Fichero</h2>
+    <form action='read.php' method='post' enctype='multipart/form-data'>
+        <input type='file' name='file' id='file' required>
+        <label for='file'>Fichero</label><br><br>
+        <input type='submit' value='Leer Fichero'>
+    </form><br><br>
+    ";
     
     // Recuperar datos
     $filter  = []; // Filtro Vacío.
