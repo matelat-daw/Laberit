@@ -1,5 +1,5 @@
 {
-  "name": "space-ng",
+  "name": "space-ng-2",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:Space-NG": "node dist/space-ng/server/server.mjs"
+    "serve:ssr:Space-NG-2": "node dist/space-ng-2/server/server.mjs"
   },
   "private": true,
   "dependencies": {
@@ -21,9 +21,7 @@
     "@angular/router": "^19.2.0",
     "@angular/ssr": "^19.2.5",
     "express": "^4.18.2",
-    "p5": "^2.0.0",
     "rxjs": "~7.8.0",
-    "space-ng": "file:",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
