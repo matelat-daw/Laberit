@@ -3,9 +3,19 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "NG-Space": {
+    "Space-NG": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -13,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/ng-space",
+            "outputPath": "dist/space-ng",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -64,10 +74,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "NG-Space:build:production"
+              "buildTarget": "Space-NG:build:production"
             },
             "development": {
-              "buildTarget": "NG-Space:build:development"
+              "buildTarget": "Space-NG:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -99,6 +109,6 @@
     }
   },
   "cli": {
-    "analytics": "d2f69e1b-68ca-4f13-90e6-c6baacbdd423"
+    "analytics": "1d49f9a9-3873-491c-9a19-bf91eea0d62d"
   }
 }
