@@ -10,6 +10,7 @@ import { RouterLink } from '@angular/router';
 export class PlanetsComponent implements OnInit {
 
   ngOnInit() {
+    this.loadScript('p5.js');
     this.loadScript('planets.js');
   }
 
