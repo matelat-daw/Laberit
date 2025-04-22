@@ -54,7 +54,7 @@ function draw() {
    // Órbita de Venus
    rotateY(frameCount * 0.00445); // Velocidad de traslación de Venus
    translate(200, 0, 0); // Distancia de Venus al Sol
-   rotateY(frameCount * 0.02); // Rotación de Venus sobre su propio eje
+   rotateY(-frameCount * 0.02); // Rotación de Venus sobre su propio eje
    texture(texture_venus);
    sphere(9.5); // Tamaño de Venus ajustado
    pop();
